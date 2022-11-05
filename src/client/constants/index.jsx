@@ -3,7 +3,7 @@
 const Constants = {
     contracts: {
         // ERC20: require('../../../contracts/ERC20.json'),
-        REDEEMABLE_MATIC
+        REDEEMABLE_MATIC: "0x00000000000",
     },
 
     networks: {
