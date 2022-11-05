@@ -7,6 +7,7 @@
 @color-redeemable-background-black: #000000;
 @color-redeemable-background-purple: rgb(208, 93, 153);
 @color-redeemable-white: #ffffff;
+@color-redeemable-background-light-grey: #c1bfba;
 @color-faded-green: rgba(103, 243, 100, 0.77);
 @color-nugbase-blue: rgb(65, 130, 193);
 
@@ -147,6 +148,21 @@
         @media @small-query {
             padding-bottom: 24px !important;
         }
+    }
+
+    .pageTitle(@color: @color-redeemable-white) {
+        font-size: 24px;
+        line-height: 28px;
+        letter-spacing: 1px;
+        color: @color;
+        font-weight: bold;
+    }
+
+    .pageSubtitle(@color: @color-redeemable-background-dark-grey) {
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: lighter;
+        color: @color;
     }
 }
 // General Utilities
