@@ -65,8 +65,8 @@ const Header = (): React.Node => {
                 data-category={'Giftcard-header'}>
                 <div
                     className={s.giftLogo}
-                    style={{ position: 'relative', marginRight: 8 }}>
-                    <div>GIFT</div>
+                    style={{ position: 'relative', marginRight: 8, color: "white"}}>
+                    Redeem A GIFT
                 </div>
             </Go>
 

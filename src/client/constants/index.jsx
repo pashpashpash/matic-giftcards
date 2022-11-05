@@ -1,9 +1,9 @@
 // Shared Constants
-
+import RedeemableNative from "../../../contracts/compiled/RedeemableNative.json"
 const Constants = {
     contracts: {
-        // ERC20: require('../../../contracts/ERC20.json'),
-        REDEEMABLE_MATIC: "0x00000000000",
+        RedeemableNative,
+        REDEEMABLENATIVE_ADDRESS: "0xC9b8F651c1D86cB3C4408755Af1340295c3441F5",
     },
 
     networks: {
