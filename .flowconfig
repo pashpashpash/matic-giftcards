@@ -1,0 +1,16 @@
+[ignore]
+.*pkg/.*
+
+[include]
+src/components/
+
+[libs]
+./src/flowtyping
+
+[lints]
+
+[options]
+module.name_mapper='.+.less$' -> 'LESSModule'
+module.system=haste
+
+[strict]
