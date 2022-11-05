@@ -1,0 +1,46 @@
+@import '../../less/common.less';
+
+body {
+    background-color: @color-redeemable-background-dark-grey;
+}
+
+.background {
+    background-color: @color-redeemable-background-dark-grey;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.page{
+    padding-top: 92px;
+    min-height: 500px;
+}
+.pageContent {
+    @footer-height: 380px;
+    #ui.footerHeight(@footer-height);
+    .featureBox {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: center;
+        padding-bottom: 100px;
+        gap: 40px;
+        .featureBtn {
+            width: 100%;
+            transition: all 0.5s ease;
+            &:hover {
+                transform: scale(1.2);
+            }
+        }
+    }
+
+    @media @medium-query {
+        max-width: 99vw !important;
+        padding-bottom: 256px !important;
+    }
+    @media @small-query {
+        padding-bottom: 150px !important;
+    }
+
+    .text {
+        color: @color-redeemable-white
+    }
+}

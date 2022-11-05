@@ -1,140 +1,109 @@
 <!DOCTYPE html>
 
-<html
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:og="http://ogp.me/ns#"
-    xmlns:fb="http://www.facebook.com/2008/fbml"
->
-    <head>
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-        <meta name="theme-color" content="#1E3A50" />
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
 
-        <meta property="og:title" content="{{.Config.MetaTitle}}" />
-        <meta
-            property="{{.Config.contentType}}"
-            content="{{.Config.content}}"
-        />
-        <meta
-            property="{{.Config.contentType}}:height"
-            content="{{.Config.ImageHeight}}"
-        />
-        <meta
-            property="{{.Config.contentType}}:width"
-            content="{{.Config.ImageWidth}}"
-        />
-        <meta
-            property="{{.Config.contentType}}:alt"
-            content="{{.Config.MetaDescription}}"
-        />
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#1E3A50" />
 
-        <meta property="og:url" content="{{.Config.MetaUrl}}" />
+    <meta property="og:title" content="{{.Config.MetaTitle}}" />
+    <meta property="{{.Config.contentType}}" content="{{.Config.content}}" />
+    <meta property="{{.Config.contentType}}:height" content="{{.Config.ImageHeight}}" />
+    <meta property="{{.Config.contentType}}:width" content="{{.Config.ImageWidth}}" />
+    <meta property="{{.Config.contentType}}:alt" content="{{.Config.MetaDescription}}" />
 
-        <meta property="og:type" content="{{.Config.MetaType}}" />
-        <meta property="og:description" content="{{.Config.MetaDescription}}" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="{{.Config.TwitterUsername}}" />
-        <meta name="twitter:title" content="{{.Config.MetaTitle}}" />
-        <meta
-            name="twitter:description"
-            content="{{.Config.MetaDescription}}"
-        />
-        <meta name="twitter:image:src" content="{{.Config.content}}" />
-        <meta name="description" content="{{.Config.MetaDescription}}" />
-        <meta name="keywords" content="{{.Config.MetaKeywords}}" />
+    <meta property="og:url" content="{{.Config.MetaUrl}}" />
 
-        <!-- Configuration -->
+    <meta property="og:type" content="{{.Config.MetaType}}" />
+    <meta property="og:description" content="{{.Config.MetaDescription}}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="{{.Config.TwitterUsername}}" />
+    <meta name="twitter:title" content="{{.Config.MetaTitle}}" />
+    <meta name="twitter:description" content="{{.Config.MetaDescription}}" />
+    <meta name="twitter:image:src" content="{{.Config.content}}" />
+    <meta name="description" content="{{.Config.MetaDescription}}" />
+    <meta name="keywords" content="{{.Config.MetaKeywords}}" />
+    <!-- Configuration -->
 
-        <title>{{.Config.PageTitle}}</title>
-        <link
-            rel="shortcut icon"
-            type="image/svg+xml"
-            href="{{.Config.PageIcon}}"
-        />
-        <!--        <link rel="manifest" href="%PUBLIC_URL%/manifest.json">-->
-    </head>
+    <title>{{.Config.PageTitle}}</title>
+    <link rel="shortcut icon" type="image/svg+xml" href="{{.Config.PageIcon}}" />
+    <!--        <link rel="manifest" href="%PUBLIC_URL%/manifest.json">-->
+</head>
 
-    <body>
-        <!-- GO GLOBAL CONFIG TEMPLATE (DO NOT MODIFY) -->
-        <script type="text/javascript">
-            window.CONFIG = {{ .Config }};
-            window.SITE = {{.Config.Site}};
-        </script>
+<body>
+    <!-- GO GLOBAL CONFIG TEMPLATE (DO NOT MODIFY) -->
+    <script type="text/javascript">
+        window.CONFIG = {{ .Config}};
+        window.SITE = {{.Config.Site}};
+    </script>
 
-        <!-- GHETTO HTTPS REDIRECT SINCE IT'S HARD IN KUBERNETES -->
-        <script type="text/javascript">
-            (function() {
-                if (
-                    location.hostname !== 'localhost' &&
-                    location.protocol !== 'https:'
-                ) {
-                    location.replace(
-                        'https:' +
-                            location.href.substring(location.protocol.length)
-                    );
-                }
-            })();
-        </script>
+    <!-- GHETTO HTTPS REDIRECT SINCE IT'S HARD IN KUBERNETES -->
+    <script type="text/javascript">
+        (function () {
+            if (
+                location.hostname !== 'localhost' &&
+                location.protocol !== 'https:'
+            ) {
+                location.replace(
+                    'https:' +
+                    location.href.substring(location.protocol.length)
+                );
+            }
+        })();
+    </script>
 
-        <!-- SVG Global Filters - must NOT use display: none or ff will ignore it -->
-        <svg
-            style="position: absolute; height: 0px; width: 0px; pointer-events: none;"
-        >
-            <filter id="wavy2" x="0%" y="0%" width="100%" height="100%">
-                <feTurbulence
-                    baseFrequency="0.02"
-                    result="NOISE"
-                    numOctaves="5"
-                />
-                <feDisplacementMap
-                    in="SourceGraphic"
-                    in2="NOISE"
-                    scale="20"
-                    xChannelSelector="R"
-                    yChannelSelector="R"
-                />
-            </filter>
+    <!-- MOBILE DRAG DROP POLYFILL -->
+    <link rel="stylesheet" href="3rd-party/mobile-drag-drop-2.3.0-rc.2/default.css" />
+    <!-- <script src="/3rd-party/mobile-drag-drop-2.3.0-rc.2/index.min.js"></script> -->
+    <!-- <script type="text/javascript"> -->
+    <!--     MobileDragDrop.polyfill({ -->
+    <!--         holdToDrag: 1, -->
+    <!--         forceApply: 'true', -->
+    <!--         dragImageCenterOnTouch: 'true', -->
+    <!--     }); -->
+    <!-- </script> -->
 
-            <filter id="wavy2light" x="0%" y="0%" width="100%" height="100%">
-                <feTurbulence
-                    baseFrequency="0.175"
-                    result="NOISE"
-                    numOctaves="4"
-                />
-                <feDisplacementMap
-                    in="SourceGraphic"
-                    in2="NOISE"
-                    scale="5"
-                    xChannelSelector="R"
-                    yChannelSelector="R"
-                />
-            </filter>
+    <!-- Misc Libs (loaded asynchronously) -->
+    <link rel="preload" href="/css/nugbase-react-select.css" as="style"
+        onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript>
+        <link rel="stylesheet" href="/css/nugbase-react-select.css" />
+    </noscript>
+    <link rel="preload" href="/css/nugbase-react-toggle.css" as="style"
+        onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript>
+        <link rel="stylesheet" href="/css/nugbase-react-toggle.css" />
+    </noscript>
 
-            <filter
-                id="wavy2verylight"
-                x="0%"
-                y="0%"
-                width="100%"
-                height="100%"
-            >
-                <feTurbulence
-                    baseFrequency="0.96"
-                    result="NOISE"
-                    numOctaves="2"
-                />
-                <feDisplacementMap
-                    in="SourceGraphic"
-                    in2="NOISE"
-                    scale="1.06"
-                    xChannelSelector="R"
-                    yChannelSelector="R"
-                />
-            </filter>
-        </svg>
+    <!-- SVG Global Filters - must NOT use display: none or ff will ignore it -->
+    <svg style="position: absolute; height: 0px; width: 0px; pointer-events: none;">
+        <filter id="wavy2" x="0%" y="0%" width="100%" height="100%">
+            <feTurbulence baseFrequency="0.02" result="NOISE" numOctaves="5" />
+            <feDisplacementMap in="SourceGraphic" in2="NOISE" scale="20" xChannelSelector="R" yChannelSelector="R" />
+        </filter>
 
-        <!-- Main App React Stuff -->
-        <div id="app" />
-    </body>
+        <filter id="wavy2light" x="0%" y="0%" width="100%" height="100%">
+            <feTurbulence baseFrequency="0.175" result="NOISE" numOctaves="4" />
+            <feDisplacementMap in="SourceGraphic" in2="NOISE" scale="5" xChannelSelector="R" yChannelSelector="R" />
+        </filter>
+
+        <filter id="wavy2verylight" x="0%" y="0%" width="100%" height="100%">
+            <feTurbulence baseFrequency="0.96" result="NOISE" numOctaves="2" />
+            <feDisplacementMap in="SourceGraphic" in2="NOISE" scale="1.06" xChannelSelector="R" yChannelSelector="R" />
+        </filter>
+    </svg>
+
+    <!-- Main App React Stuff -->
+    <div id="app" />
+    <script type="text/javascript">
+        (function () {
+            var bundleScript = document.createElement('script');
+            bundleScript.type = 'text/javascript';
+            bundleScript.src =
+                '/js/bundle.js?v=' + window.CONFIG.GAME_VERSION;
+            window.document.body.appendChild(bundleScript);
+        })();
+    </script>
+</body>
+
 </html>
