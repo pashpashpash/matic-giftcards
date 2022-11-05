@@ -4,7 +4,7 @@ import s from './index.less';
 
 import Go from '../Go';
 import URL from 'url-parse';
-// import Beta from './beta';
+import AccountNav from '../AccountNav'
 
 const Header = (): React.Node => {
     const curHost = window.location.hostname;
@@ -206,7 +206,7 @@ const Header = (): React.Node => {
             </div>
             <div className={s.mainLinks}>{links}</div>
             <div className={s.connectWallet}>
-                <div>AccountNav</div>
+                <AccountNav/>
             </div>
         </div>
     );
