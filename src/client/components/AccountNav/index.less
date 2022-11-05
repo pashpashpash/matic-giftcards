@@ -1,0 +1,55 @@
+@import '../../less/common.less';
+
+.accountNavWrap {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .main {
+        display: flex;
+        flex-direction: row;
+
+        .accountNav {
+            #ui.clickableImage();
+            background-color: @color-redeemable-background-darker-grey;
+            border: 1px solid @color-redeemable-background-black;
+            border-radius: 4px;
+            display: flex;
+            position: relative;
+            font-size: 18px;
+            line-height: 32px;
+            padding: 8px 18px 8px 18px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 16px;
+
+            .account {
+                color: white;
+                font-weight: 600;
+                @media @small-query {
+                    width: 100%;
+                    overflow: hidden; // limit max-width of account in nav bar on mobile
+                }
+            }
+        }
+    }
+
+    .subnav {
+        #ui.button(@color-nugbase-blue);
+        display: inline-block;
+        position: relative;
+        right: -400px;
+        margin-top: 8px;
+        margin-right: 8px;
+        transition: all 500ms ease-in-out;
+        font-size: 12px;
+
+        &.network {
+            #ui.button(@color-nugbase-blue);
+            font-size: 12px;
+            margin-top: 8px;
+            margin-right: 8px;
+        }
+    }
+}
