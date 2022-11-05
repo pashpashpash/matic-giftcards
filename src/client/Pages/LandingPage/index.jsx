@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import Page from '../../components/Page';
-import Footer from '../../components/Footer';
+import Hero from "./Hero"
 import s from './index.less';
 
 type Props = {
@@ -31,7 +31,7 @@ const LandingPage = (props: Props): React.Node => {
     };
 
     React.useEffect(() => {
-        if (ANCHORS[HashId]) handleScroll(ANCHORS[HashId]);
+        if (ANCHORS[HashId]) handleScroll(ANCHORS[HashId], 64);
     }, [HashId]);
 
     return (
@@ -41,15 +41,9 @@ const LandingPage = (props: Props): React.Node => {
                 contentBackgroundClass={s.background}
                 contentPreferredWidth={800}
                 contentClass={s.pageContent}>
-                <div
-                    className={s.text}
-                    style={{
-                        height: 500,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}>
-                    <div>Hello World!</div>
+                <Hero history={history}/>
+                <div className={s.infoSlide}>
+                    Info Slide
                 </div>
             </Page>
         </>

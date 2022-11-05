@@ -39,8 +39,148 @@ body {
     @media @small-query {
         padding-bottom: 150px !important;
     }
+}
 
-    .text {
-        color: @color-redeemable-white
+.sideBySide {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+
+    @media @small-query, @medium-query {
+        margin-top: 100px;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .callToAction {
+        width: 436px;
+        z-index: 100;
+        padding-left: 44px;
+
+        @media @small-query, @medium-query {
+            padding-left: 0px;
+            text-align: center;
+        }
+        @media @small-query {
+            width: 246px;
+        }
+
+        .button {
+            box-shadow: 1px 1px 2px black,
+                0 0 25px @color-redeemable-background-dark-grey,
+                0 0 5px @color-redeemable-background-darker-grey;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            font-size: 28px;
+            width: 100%;
+            padding: 18px;
+            padding-top: 24px;
+            padding-bottom: 24px;
+            border: 6px solid @color-redeemable-background-darker-grey;
+            border-radius: 0px;
+            cursor: pointer;
+            color: @color-redeemable-background-darker-grey;
+            font-weight: 600;
+            background: linear-gradient(
+                to right,
+                #1e5799 0%,
+                #2ce0bf 19%,
+                #76dd2c 40%,
+                #dba62b 60%,
+                #e02cbf 83%,
+                #1e5799 100%
+            );
+            background-size: 10000px 100%;
+            animation: bg 15s linear infinite;
+            transition: all 200ms ease-in-out;
+
+            @media @small-query {
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            &:hover {
+                filter: brightness(110%);
+                transition: all 200ms ease-in-out;
+                border-color: @color-redeemable-white;
+            }
+
+            &:active {
+                filter: brightness(80%);
+                transition: all 200ms ease-in-out;
+            }
+
+            .createRedeemableIcon {
+                width: 60px;
+                height: 60px;
+                background-size: 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url(/img/common/cards-magic.png);
+            }
+        }
+
+        .landingText {
+            width: 100%;
+            overflow-wrap: break-word;
+            padding: 6px;
+            text-shadow: 0px 0px 40px black,
+                0 0 25px @color-redeemable-background-dark-grey,
+                0 0 5px @color-redeemable-background-darker-grey;
+
+            @media @small-query {
+                margin-top: 44px;
+                padding-left: 0px;
+                text-align: center;
+                width: 240px;
+            }
+
+            .heading {
+                #ui.pageTitle(white);
+                font-size: 38px;
+                font-weight: 600;
+                margin-bottom: 8px;
+                line-height: 1.5;
+
+                @media @small-query {
+                    font-size: 24px;
+                    line-height: initial;
+                    text-align: center;
+                }
+            }
+
+            .subheading {
+                #ui.pageSubtitle(@color-redeemable-background-light-grey);
+                font-size: 22px;
+                font-weight: 300;
+                margin: 8px auto auto;
+                padding-bottom: 32px;
+                line-height: 1.5;
+
+                @media @small-query {
+                    text-align: center;
+                    font-size: 16px;
+                }
+
+                .emphasis {
+                    color: @color-redeemable-background-purple;
+                }
+            }
+        }
+    }
+
+    .cards {
+        position: relative;
+        width: 320px;
+        height: 256px;
+        transform: scale(0.9);
+        background: url("/img/LandingPageHeroCard");
+        @media @small-query, @medium-query {
+            transform: scale(0.75);
+            transform-origin: center center;
+        }
+        
     }
 }
