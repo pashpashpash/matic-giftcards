@@ -42,6 +42,7 @@ func RelayRedeemHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, fmt.Sprintf("[RelayRedeem] Error marshalling OpenZeppelin request"), http.StatusNotFound)
 		return
 	}
+
 	req, err := http.NewRequest(http.MethodPost, OPENZEPPELIN_WEBHOOK_URI, bytes.NewBuffer(openZeppelinRequestArguments))
 	if err != nil {
 		log.Println("[RelayRedeem] Error forming OpenZeppelin request", err)
