@@ -2,6 +2,8 @@
 
 Code for the ETHGlobal hackathon
 
+A full web application with web3 wallet support which enables the creation of crypto gift cards with MATIC currency. includes gassles redemption using metaTransactions.
+
 ## Manual Dependencies
 
 -   node: v12.22

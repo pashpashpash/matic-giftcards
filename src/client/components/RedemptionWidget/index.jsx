@@ -12,7 +12,7 @@ import TransactionStatusDisplay from '../TransactionStatusDisplay';
 import RedeemableCard from '../RedeemableCard';
 import Util from '../../Utils';
 import ManualRedemption from './manualredemption';
-
+import { portis } from '../AccountNav/connectors';
 import Go from '../Go';
 
 const MIN_LOADING_TIME = 500;
@@ -41,7 +41,7 @@ const MIN_NUM_CONFIRMATIONS = 6;
 const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
     const { redemptionKey } = props;
     const web3react = useWeb3React();
-    const { active, account, library, chainId } = web3react;
+    const { active, activate, account, library, chainId } = web3react;
     // check if the user is already logged in and show Message sign flow instead.
 
     const [slotNotActive, setSlotNotActive] = React.useState(null);
@@ -186,6 +186,23 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
             });
     }, [library, redemptionKey, account, chainId, web3react.library]);
 
+    const handleClick = React.useCallback(() => {
+        if (!activate) {
+            console.log('[AccountNav] Error Activate undefined');
+        }
+        if (active) return;
+        activate(portis, (error: Error) => {
+            console.log('[AccountNav] Error inside activate function', {
+                error,
+            });
+        })
+            .then((res): any => {})
+            .catch((err: Error): any => {
+                console.log('[AccountNav] Error activating connector', err);
+            });
+    }, [activate, active]);
+
+
     const explorerUrl = Constants.getExplorerUrl(chainId, txHash);
     let buttonText = 'Redeem MATIC';
     if (slotAmount != null) {
@@ -318,7 +335,12 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
                         </div>
                     </div>
                 </div>
-                <div style={{ height: 24 }}></div>
+                <div style={{ height: 48 }}></div>
+                <div className={s.noWalletContainer}>
+                    <div className={s.noWalletText}>Dont have a crypto wallet? Don't worry about it, making a new wallet is super fast!
+                     A wallet is where you recieve currency like MATIC and its also your one click, one password, to login to all web3 applications.</div>
+                    <div className={s.noWalletCTA} onClick={handleClick}>Create Portis Wallet</div>
+                </div>
             </div>
         );
     }

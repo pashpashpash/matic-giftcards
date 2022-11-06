@@ -67,8 +67,8 @@ const AccountNav = (): React.Node => {
             });
         }, 1000);
 
-        return () => clearInterval(intervalId); //This is important
-    }, [library, balance, setBalance]);
+        return () => clearInterval(intervalId); // This is important
+    }, [library, balance, setBalance, account]);
 
     const handleClick = React.useCallback(() => {
         if (!activate) {
@@ -84,7 +84,7 @@ const AccountNav = (): React.Node => {
             .catch((err: Error): any => {
                 console.log('[AccountNav] Error activating connector', err);
             });
-    }, [injected, activate, active, account, library]);
+    }, [activate, active]);
 
     let prettyAccount = 'Connect Wallet';
 
