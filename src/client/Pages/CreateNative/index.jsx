@@ -5,9 +5,9 @@ import { injected } from '../../components/AccountNav/connectors';
 import Page from '../../components/Page';
 import Footer from '../../components/Footer';
 import Slider from 'react-input-slider';
-import DepositWidget from "../../components/depositWidget";
+import DepositWidget from '../../components/depositWidget';
 import s from './index.less';
-
+// import FancyInput from "../../components/FancyInput"
 type Props = {
     history: Object,
 };
@@ -53,7 +53,10 @@ type GiftCardInputProps = {
     confirmAmount: Function,
 };
 
-const GiftCardAmountInput = (props: GiftCardInputProps): React.Node => (
+const GiftCardAmountInput = (props: GiftCardInputProps): React.Node => {
+
+    const [precision, setPrecision] = React.useState(5)
+    return (
     <div className={s.GiftCardInputAmountContainer}>
         <div className={s.giftcardHeader}>
             {' '}
@@ -62,50 +65,79 @@ const GiftCardAmountInput = (props: GiftCardInputProps): React.Node => (
 
         <div className={s.SliderContainer}>
             <input
-            className={s.SliderQuantity}
-            type="number"
-            step={0.00001}
-            value={parseFloat(props.giftCardAmount).toPrecision(7)}
-            onChange={(evt: {target: {value: number}}) => {
-                console.log("TextInputEvent: ", evt.target.value)
-                props.setGiftCardAmount(parseFloat(evt.target.value).toPrecision(7))
-            }}
+                className={s.SliderQuantity}
+                type="text"
+                value={props.giftCardAmount}
+                onChange={(evt: { target: { value: number } }) => {
+                    const result = evt.target.value
+                    const newPrecision = result + ""
+                    console.log('TextInputEvent: ', result, newPrecision.length);
+                    props.setGiftCardAmount(
+                        result
+                    );
+                    setPrecision(newPrecision.length)
+                }}
             />
             <Slider
                 asix="X"
                 x={props.giftCardAmount}
-                onChange={(x: {x: number, y: number}) => {
-                    console.log("Setting quanitity: ", x, (x.x).toPrecision(7))
-                    props.setGiftCardAmount((x.x).toPrecision(7));
+                onChange={(x: { x: number, y: number }) => {
+                    console.log('Setting quanitity: ', x.x);
+                    props.setGiftCardAmount(x.x);
+                    if (x.x > 1000) setPrecision(7);
                 }}
                 xmin={0}
                 xmax={10000}
                 xstep={0.00001}
+                styles={{
+                    x: { width: '320px' },
+                    track: {
+                        width: '60%',
+                        backgroundColor: '#c1bfba',
+                    },
+                    active: {
+                        backgroundColor: '#272727',
+                        border: '2px solid #c1bfba'
+                    },
+                    thumb: {
+                        width: 24,
+                        height: 50,
+                    },
+                    disabled: {
+                        opacity: 0.5,
+                    },
+                }}
             />
         </div>
 
         <div className={s.amountConfirmContainer}>
-                <div className={s.confirmAmountButton} onClick={() => {
+            <div
+                className={s.confirmAmountButton}
+                onClick={() => {
                     if (props.giftCardAmount === 0) {
-                        console.log("must be more than 0");
+                        console.log('must be more than 0');
                         return;
                     }
-                    props.confirmAmount(true)
-                    }}>
-                   Confirm deposit of {parseFloat(props.giftCardAmount).toPrecision(7)} into gift Redeemable
-                </div>
+                    props.confirmAmount(true);
+                }}>
+                Confirm deposit of{' '}
+                {parseFloat(props.giftCardAmount).toPrecision(precision - 1)} into gift
+                Redeemable
+            </div>
         </div>
     </div>
 );
+            }
 
 type GiftDepositProps = {
     giftCardAmount: number,
 };
 
 const CreateNative = (props: Props): React.Node => {
-    const { account, active } = useWeb3React();
+    const { active } = useWeb3React();
     const [cardAmount, setCardAmount] = React.useState(1);
-    const [moveToDeposit, setMoveToDeposit] = React.useState(null)
+
+    const [moveToDeposit, setMoveToDeposit] = React.useState(null);
     // display basic login to ensure user is connected
     let display = null;
     if (!active) display = <RequireLogin />;
@@ -120,8 +152,7 @@ const CreateNative = (props: Props): React.Node => {
         );
     } else if (active) {
         // once the deposit amount in confirmed move to creating the redeemable
-        display = <DepositWidget giftCardAmount={cardAmount}/>
-
+        display = <DepositWidget giftCardAmount={cardAmount} />;
     }
     return (
         <Page
