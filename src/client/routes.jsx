@@ -8,6 +8,7 @@ const LandingPage = lazy(() => import('./Pages/LandingPage'));
 const Header = lazy(() => import('./components/Header/index'));
 const CreateNative = lazy(() => import('./Pages/CreateNative'));
 const ManualRedemptionPage = lazy(() => import('./Pages/ManualRedemptionPage'));
+const RedemptionPage = lazy(() => import('./Pages/RedemptionPage'));
 
 const loading = (
     <div
@@ -125,6 +126,12 @@ class AppRouting extends React.Component<Props, State> {
                                     path="/r/:redeemKey/manual"
                                     history={history}
                                     component={ManualRedemptionPage}
+                                    change={this.handlePageChange}
+                                />
+                                <NugRoute
+                                    path="/r/:redeemKey"
+                                    history={history}
+                                    component={RedemptionPage}
                                     change={this.handlePageChange}
                                 />
                             </Switch>

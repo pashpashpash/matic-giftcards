@@ -49,7 +49,6 @@ const ManualRedemption = ({
     const [slotNotUsed, setSlotNotUsed] = React.useState(null);
     const [slotAmount, setSlotAmount] = React.useState(null);
 
-    const [redeemableData, setRedeemableData] = React.useState(null);
     const [errorPageMessage, setErrorPageMessage] = React.useState(null);
 
     React.useEffect(() => {
@@ -96,7 +95,6 @@ const ManualRedemption = ({
                             '[RedemptionWidget] Redemption slot not active!',
                             {
                                 redeemableContract,
-                                redeemableData,
                                 r,
                             }
                         );
@@ -115,7 +113,6 @@ const ManualRedemption = ({
                             '[RedemptionWidget] Redemption slot not being used!',
                             {
                                 redeemableContract,
-                                redeemableData,
                                 r,
                             }
                         );
@@ -296,7 +293,10 @@ const ManualRedemption = ({
     );
 
     if (!library || !account || !redemptionKey) {
-        return null;
+        <div className={s.callToAction}>
+            Welcome to the digital Redeemable experience! To claim this gift
+            card, please connect your wallet.
+        </div>;
     }
 
     if (chainId !== 137) {
