@@ -15,7 +15,7 @@ import ManualRedemption from './manualredemption';
 import Go from '../Go';
 
 const MIN_LOADING_TIME = 500;
-const NUM_DECIMALS_DISPLAYED = 4;
+const NUM_DECIMALS_DISPLAYED = 2;
 
 const loadingElement = (
     <div className={s.ldsRing}>
@@ -144,40 +144,42 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
                     v,
                     account,
                 });
-                Util.PostAPI.relay.sendMetaTx(
-                    depositAccount.address,
-                    sig,
-                    functionSignature,
-                    r,
-                    s,
-                    v,
-                    account,
-                ).then(r => {
+                Util.PostAPI.relay
+                    .sendMetaTx(
+                        depositAccount.address,
+                        sig,
+                        functionSignature,
+                        r,
+                        s,
+                        v,
+                        account
+                    )
+                    .then(r => {
                         console.log(
                             '[RedemptionWidget] MetaTx Call Was sent!',
                             r
                         );
                         setTxStatus('confirmed');
                     })
-                    .catch(async (e) => {
+                    .catch(async e => {
                         console.log(
                             '[RedemptionWidget] MetaTx Call Failed to be sent!',
                             e
                         );
-                        var actual = atob(e)
-                        console.log("defender ERROR: ", actual)
+                        var actual = atob(e);
+                        console.log('defender ERROR: ', actual);
                         const gasPrice = await Util.Eth.estimateGasPrice(
                             web3react.library
                         );
                         redeemableContract.methods
-                    .executeMetaTransaction(
-                        depositAccount.address,
-                        functionSignature,
-                        r,
-                        s,
-                        v
-                    )
-                    .send({ from: account, gasPrice })
+                            .executeMetaTransaction(
+                                depositAccount.address,
+                                functionSignature,
+                                r,
+                                s,
+                                v
+                            )
+                            .send({ from: account, gasPrice });
                         setTxStatus('error');
                     });
             });

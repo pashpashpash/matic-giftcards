@@ -13,7 +13,7 @@ import Constants from '../../Constants';
 
 const RedeemableNativeABI = Constants.contracts.RedeemableNative.abi;
 const RedeemableNativeAddress = Constants.addresses.RedeemableNative;
-const NUM_DECIMALS_DISPLAYED = 4;
+const NUM_DECIMALS_DISPLAYED = 2;
 
 import Go from '../Go';
 
