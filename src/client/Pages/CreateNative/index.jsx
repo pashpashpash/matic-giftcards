@@ -141,11 +141,11 @@ const GiftCardAmountInput = (props: GiftCardInputProps): React.Node => {
             <div
                 className={s.confirmAmountButton}
                 onClick={() => {
-                    if (props.giftCardAmount === 0) {
-                        console.log('must be more than 0');
-                        return;
+                    if (props.giftCardAmount > 0) {
+                        props.confirmAmount(true);
                     }
-                    props.confirmAmount(true);
+                    console.log('must be more than 0');
+                        return;
                 }}>
                 Confirm deposit of{' '}
                 {props.giftCardAmount} into gift
