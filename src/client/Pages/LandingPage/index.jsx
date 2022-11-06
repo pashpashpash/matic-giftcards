@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import Page from '../../components/Page';
-import Hero from "./Hero"
+import Hero from './Hero';
 import s from './index.less';
 
 type Props = {
@@ -41,10 +41,7 @@ const LandingPage = (props: Props): React.Node => {
                 contentBackgroundClass={s.background}
                 contentPreferredWidth={800}
                 contentClass={s.pageContent}>
-                <Hero history={history}/>
-                <div className={s.infoSlide}>
-                    Info Slide
-                </div>
+                <Hero history={history} />
             </Page>
         </>
     );
