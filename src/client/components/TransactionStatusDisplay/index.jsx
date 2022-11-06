@@ -15,9 +15,9 @@ const TransactionStatusDisplay = (props: Props): React.Node => {
         navigator.clipboard.writeText(text);
     }, []);
 
-    const txHashElement = props.txHash != null && (
+    const txHashElement = props != null && props.txHash && (
         <div
-            className={s.props.txHash}
+            className={s.txHash}
             onClick={handleCopy.bind(this, props.txHash)}>{`${props.txHash.slice(
             0,
             4

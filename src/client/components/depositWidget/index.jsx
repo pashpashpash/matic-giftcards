@@ -8,12 +8,6 @@ import TransactionStatusDisplay from '../TransactionStatusDisplay';
 import Go from '../Go';
 
 
-// import {
-//     RedeemableInfo,
-//     RedeemableTheme,
-// } from '../../../protobuf/redeemable_pb';
-// import { RedeemableInfo$AsClass } from '../../../protobuf/redeemable_pb.flow';
-
 import { useWeb3React } from '@web3-react/core';
 
 // eslint-disable-next-line flowtype/no-weak-types
@@ -98,7 +92,7 @@ const RedeemableCreationWidget = (props: GiftDepositProps) => {
             }
             setRedeemableKey(depositAccount.privateKey);
             setSecretAccount(depositAccount.address);
-            console.log("RECOVERY KEY: ", depositAccount.privateKey)
+            console.log("RECOVERY KEY: ", depositAccount.privateKey, "secretAccount: ", depositAccount.address)
             const gasPrice = await estimateGasPrice(library);
             console.log(redeemableContract)
             console.log(
