@@ -14,6 +14,9 @@ import ManualRedemption from './manualredemption';
 
 import Go from '../Go';
 
+const MIN_LOADING_TIME = 500;
+const NUM_DECIMALS_DISPLAYED = 4;
+
 const loadingElement = (
     <div className={s.ldsRing}>
         <div></div>
@@ -43,6 +46,9 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
     const [slotNotActive, setSlotNotActive] = React.useState(null);
     const [slotNotUsed, setSlotNotUsed] = React.useState(null);
     const [slotAmount, setSlotAmount] = React.useState(null);
+    const [minLoadingTimeReached, setMinLoadingTimeReached] = React.useState(
+        false
+    );
 
     const [txStatus, setTxStatus] = React.useState(null);
     const [txHash, setTxHash] = React.useState(null);
@@ -72,16 +78,7 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
                 .isSlotActive(depositAccount.address)
                 .call()
                 .then(r => {
-                    if (!r) {
-                        console.log(
-                            '[RedemptionWidget] Redemption slot not active!',
-                            {
-                                redeemableContract,
-                                r,
-                            }
-                        );
-                        setSlotNotActive(true);
-                    }
+                    setSlotNotActive(!r);
                 })
                 .catch(console.log);
 
@@ -90,16 +87,7 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
                 .call()
                 .then(r => {
                     console.log('>>>>SLOT DATA:', { r });
-                    if (!r.used) {
-                        console.log(
-                            '[RedemptionWidget] Redemption slot not being used!',
-                            {
-                                redeemableContract,
-                                r,
-                            }
-                        );
-                        setSlotNotUsed(true);
-                    }
+                    setSlotNotUsed(!r.used);
 
                     if (r.tokenAmount) {
                         setSlotAmount(r.tokenAmount);
@@ -108,6 +96,12 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
                 .catch(console.log);
         }
     }, [chainId, redemptionKey, library, account]);
+
+    React.useEffect(() => {
+        setTimeout(() => {
+            setMinLoadingTimeReached(true);
+        }, MIN_LOADING_TIME);
+    });
 
     const handleRedemption = React.useCallback(() => {
         const depositAccount = library.eth.accounts.privateKeyToAccount(
@@ -178,6 +172,14 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
 
     const explorerUrl = Constants.getExplorerUrl(chainId, txHash);
     let buttonText = 'Redeem MATIC';
+    if (slotAmount != null) {
+        buttonText =
+            'Redeem ' +
+            (slotAmount / Constants.units.weiInEth).toFixed(
+                NUM_DECIMALS_DISPLAYED
+            ) +
+            ' MATIC';
+    }
     if (txStatus === 'pending') {
         buttonText = 'Waiting...';
     } else if (txStatus === 'error') {
@@ -273,6 +275,21 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
             </div>
         );
     }
+
+    if (!minLoadingTimeReached) {
+        // don't want to show connect wallet message prematurely
+        return (
+            <div
+                style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}>
+                {loadingElement}
+            </div>
+        );
+    }
+
     if (!library || !account) {
         return (
             <div className={s.page0}>
@@ -289,6 +306,26 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
             </div>
         );
     }
+
+    console.log('>>>>>>slot status:', { slotNotUsed, slotNotActive });
+
+    if (
+        slotNotActive == null ||
+        slotNotUsed == null ||
+        !minLoadingTimeReached
+    ) {
+        return (
+            <div
+                style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}>
+                {loadingElement}
+            </div>
+        );
+    }
+
     if (chainId !== 137) {
         return (
             <div className={s.verticalColumn}>
@@ -326,7 +363,7 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
             </div>
         );
     }
-    console.log('>>>>>>slot status:', { slotNotUsed, slotNotActive });
+
     console.log('valid redeemable slot and not claimed!');
     // valid redeemable slot and not claimed
     return (
