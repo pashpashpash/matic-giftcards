@@ -86,7 +86,13 @@ const GiftCardAmountInput = (props: GiftCardInputProps): React.Node => (
         </div>
 
         <div className={s.amountConfirmContainer}>
-                <div className={s.confirmAmountButton} onClick={props.confirmAmount}>
+                <div className={s.confirmAmountButton} onClick={() => {
+                    if (props.giftCardAmount === 0) {
+                        console.log("must be more than 0");
+                        return;
+                    }
+                    props.confirmAmount(true)
+                    }}>
                    Confirm deposit of {parseFloat(props.giftCardAmount).toPrecision(7)} into gift Redeemable
                 </div>
         </div>
@@ -100,11 +106,14 @@ const DepositGiftRedeemable = (props: GiftDepositProps): React.Node => {
     const { library } = useWeb3React();
 
     const DepositFunds = () => {
-        if (!library) {console.log("DEPOSIT ERROR WEB3 undifined"); return;}
+        if (!library) {
+            console.log("DEPOSIT ERROR WEB3 undifined");
+            return;
+        }
     }
 
     return (
-        <div></div>
+        <div>DEPOSIT FUNDS HERE</div>
     );
 }
 
@@ -112,26 +121,29 @@ const CreateNative = (props: Props): React.Node => {
     const { account } = useWeb3React();
     const [cardAmount, setCardAmount] = React.useState(1);
     const [moveToDeposit, setMoveToDeposit] = React.useState(null)
-
-    let display = <RequireLogin />;
-    if (account && !moveToDeposit) display = (
+    // display basic login to ensure user is connected
+    let display = null;
+    if (!account) display = <RequireLogin />;
+    // get the deposit amount and confirm it.
+    if (!moveToDeposit) {
+        display = (
             <GiftCardAmountInput
                 giftCardAmount={cardAmount}
                 setGiftCardAmount={setCardAmount}
-                confirmAmount={()=> {setMoveToDeposit(true)}}
+                confirmAmount={setMoveToDeposit}
             />
         );
-    if (account && moveToDeposit) {
-        display = <DepositGiftRedeemable/>
+    } else {
+        // once the deposit amount in confirmed move to creating the redeemable
+        display = <DepositGiftRedeemable giftCardAmount={cardAmount}/>
+
     }
     return (
         <Page
-            {...props}
             pageClass={s.page}
             footerEnabled={true}
             footerFloating={false}
             verticalCenter={true}
-            backgroundOnly={true}
             contentPreferredWidth={800}
             footerComponent={<Footer />}>
             <div className={s.content}>{display}</div>
