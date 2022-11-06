@@ -1,0 +1,43 @@
+@import '../../less/common.less';
+
+.page {
+    @footer-height: 40px;
+
+    min-height: 100vh;
+    line-height: 1.5;
+    z-index: 2;
+    padding-top: 128px;
+    padding-bottom: 300px;
+
+    background: @color-redeemable-background-dark-grey;
+
+    @media @small-query, @medium-query {
+        background-position: center bottom 20%;
+    }
+
+    .content {
+        #ui.footerHeight();
+
+        .info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 0px auto;
+
+            h1 {
+                color: @color-redeemable-white;
+                font-size: 36px;
+                margin-top: 32px;
+            }
+
+            p {
+                color: @color-redeemable-white;
+                font-size: 20px;
+                font-weight: 300;
+                margin-bottom: 32px;
+            }
+        }
+    }
+}

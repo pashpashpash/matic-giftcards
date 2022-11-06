@@ -197,3 +197,48 @@
         z-index: auto;
     }
 }
+
+
+.button {
+    padding: 44px;
+    border: 6px solid @color-redeemable-background-light-grey;
+    background: lighten(@color-redeemable-background-dark-grey, 5%);
+    cursor: pointer;
+    margin-top: 44px;
+    border-radius: 24px;
+
+    @media @small-query {
+        padding: 32px;
+    }
+
+    &:hover {
+        filter: brightness(110%);
+    }
+
+    &:active {
+        filter: brightness(140%);
+    }
+
+    &.disabled {
+        cursor: default;
+        background: none;
+        border: 6px solid @color-redeemable-background-darker-grey;
+        filter: brightness(80%);
+    }
+
+    &.pending {
+        background: @color-redeemable-background-darker-grey;
+        color: @color-redeemable-pending;
+        cursor: inherit;
+    }
+
+    &.error {
+        background: @color-redeemable-background-darker-grey;
+        color: @color-redeemable-error;
+    }
+
+    &.confirmed {
+        background: @color-redeemable-background-darker-grey;
+        color: @color-redeemable-confirmed;
+    }
+}

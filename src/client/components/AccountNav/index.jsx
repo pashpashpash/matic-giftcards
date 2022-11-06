@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { useEagerConnect, injected } from './connectors';
 
-import Constants from '../../constants';
+import Constants from '../../Constants';
 
 import s from './index.less';
 
@@ -30,8 +30,7 @@ const AccountNav = (): React.Node => {
                 error,
             });
         })
-            .then((res): any => {
-            })
+            .then((res): any => {})
             .catch((err: Error): any => {
                 console.log('[AccountNav] Error activating connector', err);
             });
