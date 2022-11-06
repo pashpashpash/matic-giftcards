@@ -9,6 +9,7 @@ import * as sigUtil from '@metamask/eth-sig-util';
 import * as ethUtil from 'ethereumjs-util';
 import Constants from '../../Constants';
 import TransactionStatusDisplay from '../TransactionStatusDisplay';
+import RedeemableCard from '../RedeemableCard';
 import Util from '../../Utils';
 import ManualRedemption from './manualredemption';
 
@@ -371,7 +372,9 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
     if (slotNotActive) {
         return (
             <div className={s.redemption}>
-                <div>PIC OF GIFTCARD</div>
+                <div>
+                    <RedeemableCard slotAmount={slotAmount} />
+                </div>
                 <div className={s.disclaimer}>
                     This Redeemable has already been claimed!
                 </div>
@@ -384,7 +387,7 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
     return (
         <div className={s.redemption}>
             <div className={s.cardRenders}>
-                <div>ABCDEFG</div>
+                <RedeemableCard slotAmount={slotAmount} back={true} />
             </div>
             {claimButtonElement}
             <div style={{ height: 14 }} />

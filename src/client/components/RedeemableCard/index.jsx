@@ -34,10 +34,14 @@ const RedeemableCard = (props): React.Node => {
             </div>
             <div className={s.redeemableHeadline}>REDEEMABLE</div>
             <div className={s.redeemableAmount}>
-                {typeof props.slotAmount === 'number'
-                    ? props.slotAmount
-                    : (10.5).toFixed(2)}{' '}
-                MATIC
+                <div>
+                    {typeof props.slotAmount === 'number'
+                        ? props.slotAmount
+                        : (10.5).toFixed(2)}{' '}
+                    MATIC
+                </div>
+                <div>ETHGlobal</div>
+                <div>11/22</div>
             </div>
         </div>
     ) : (
