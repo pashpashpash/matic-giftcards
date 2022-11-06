@@ -195,7 +195,7 @@ const RedeemableCreationWidget = (props: GiftDepositProps) => {
                 <div className={s.leftSide}>
                     <RedeemableCard
                         back={true}
-                        slotAmount={props.giftCardAmount}
+                        slotAmount={parseFloat(props.giftCardAmount).toFixed(2)}
                     />
                 </div>
                 <div className={s.rightSide}>
