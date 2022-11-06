@@ -6,7 +6,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 const LandingPage = lazy(() => import('./Pages/LandingPage'));
 const Header = lazy(() => import('./components/Header/index'));
-const CreateNative = lazy(() => import('./Pages/CreateNative'))
+const CreateNative = lazy(() => import('./Pages/CreateNative'));
+const ManualRedemptionPage = lazy(() => import('./Pages/ManualRedemptionPage'));
 
 const loading = (
     <div
@@ -115,10 +116,16 @@ class AppRouting extends React.Component<Props, State> {
                                     change={this.handlePageChange}
                                 />
                                 <NugRoute
-                                exact
-                                path="/create-native"
-                                component={CreateNative}
-                                change={this.handlePageChange}
+                                    exact
+                                    path="/create-native"
+                                    component={CreateNative}
+                                    change={this.handlePageChange}
+                                />
+                                <NugRoute
+                                    path="/r/:redeemKey/manual"
+                                    history={history}
+                                    component={ManualRedemptionPage}
+                                    change={this.handlePageChange}
                                 />
                             </Switch>
                         </div>
