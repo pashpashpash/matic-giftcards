@@ -13,6 +13,7 @@ import Constants from '../../Constants';
 
 const RedeemableNativeABI = Constants.contracts.RedeemableNative.abi;
 const RedeemableNativeAddress = Constants.addresses.RedeemableNative;
+const NUM_DECIMALS_DISPLAYED = 4;
 
 import Go from '../Go';
 
@@ -209,7 +210,9 @@ const ManualRedemption = ({
     if (slotAmount != null) {
         buttonText =
             'Redeem ' +
-            (slotAmount / Constants.units.weiInEth).toFixed(4) +
+            (slotAmount / Constants.units.weiInEth).toFixed(
+                NUM_DECIMALS_DISPLAYED
+            ) +
             ' MATIC';
     }
     if (txStatus === 'pending') {
