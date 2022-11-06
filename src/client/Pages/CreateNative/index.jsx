@@ -103,14 +103,14 @@ type GiftDepositProps = {
 };
 
 const CreateNative = (props: Props): React.Node => {
-    const { account } = useWeb3React();
+    const { account, active } = useWeb3React();
     const [cardAmount, setCardAmount] = React.useState(1);
     const [moveToDeposit, setMoveToDeposit] = React.useState(null)
     // display basic login to ensure user is connected
     let display = null;
-    if (!account) display = <RequireLogin />;
+    if (!active) display = <RequireLogin />;
     // get the deposit amount and confirm it.
-    if (!moveToDeposit) {
+    if (active && !moveToDeposit) {
         display = (
             <GiftCardAmountInput
                 giftCardAmount={cardAmount}
@@ -118,7 +118,7 @@ const CreateNative = (props: Props): React.Node => {
                 confirmAmount={setMoveToDeposit}
             />
         );
-    } else {
+    } else if (active) {
         // once the deposit amount in confirmed move to creating the redeemable
         display = <DepositWidget giftCardAmount={cardAmount}/>
 

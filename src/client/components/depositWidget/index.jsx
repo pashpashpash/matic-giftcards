@@ -53,7 +53,7 @@ const RedeemableCreationWidget = (props: GiftDepositProps) => {
     const [numConfirmations, setNumConfirmations] = React.useState(0);
     const [redeemableKey, setRedeemableKey] = React.useState(null);
     const [secretAccount, setSecretAccount] = React.useState(null);
-    const [creationTxStatus, setCreationTxStatuses] = React.useState("idle");
+    const [creationTxStatus, setCreationTxStatuses] = React.useState(null);
 
     React.useEffect(() => {
         window.onbeforeunload = e => {
@@ -72,9 +72,8 @@ const RedeemableCreationWidget = (props: GiftDepositProps) => {
     }, []);
 
 
-
     const handleCreate = React.useCallback(async () => {
-
+        if (!library) return;
         const redeemableContract = new library.eth.Contract(
             Constants.contracts.RedeemableNative.abi,
             Constants.contracts.REDEEMABLENATIVE_ADDRESS
@@ -99,31 +98,26 @@ const RedeemableCreationWidget = (props: GiftDepositProps) => {
             }
             setRedeemableKey(depositAccount.privateKey);
             setSecretAccount(depositAccount.address);
-
-            const gasPrice = await estimateGasPrice(web3react.library);
+            console.log("RECOVERY KEY: ", depositAccount.privateKey)
+            const gasPrice = await estimateGasPrice(library);
             console.log(redeemableContract)
             console.log(
-                '[CreationWidget] Calling safeTransferFrom(address,address,uint256,bytes)',
-                
+                '[CreationWidget] Depositing matic into gift card',
                     account,
                     'redeemableContract.options.address: ',
                         redeemableContract.options.address,
-                    "amount to deposit: ", props.giftCardAmount,
+                    "amount to deposit: ", BigInt(props.giftCardAmount * Constants.units.weiInEth).toString(),
                     encodedRedeemerAddress,
                     gasPrice,
-                
             );
-            return;
-            selectedContract.methods[
-                'safeTransferFrom(address,address,uint256,bytes)'
-            ](
-                account,
-                redeemableContract.options.address,
-                BigInt(NFT.token_id),
-                encodedRedeemerAddress
-            )
-                .send({ from: account, gasPrice })
-                .on('error', e => {
+            library.eth.sendTransaction({
+                from: account,
+                to: Constants.contracts.REDEEMABLENATIVE_ADDRESS,
+                value: BigInt(props.giftCardAmount * Constants.units.weiInEth).toString(),
+                data: encodedRedeemerAddress,
+                gasPrice
+            })
+            .on('error', e => {
                     if (creationTxStatus !== 'error') {
                         setCreationTxStatuses('error');
                     }
@@ -133,45 +127,7 @@ const RedeemableCreationWidget = (props: GiftDepositProps) => {
                     if (creationTxStatus !== 'pending') {
                         setCreationTxStatuses('pending');
                     }
-                    // experimental
-                    // const redeemableInfo = new RedeemableInfo();
-                    // redeemableInfo.setSecretAccount(depositAccount.address);
-                    // redeemableInfo.setCreatorAccount(account);
-                    // redeemableInfo.setTxDeposited(transactionHash);
-                    // redeemableInfo.setNFTContract(NFT.asset_contract.address);
-                    // redeemableInfo.setNFTTokenID(
-                    //     BigInt(NFT.token_id).toString()
-                    // );
-                    // redeemableInfo.setNFTChainID(chainId);
-                    // redeemableInfo.setNFTName(NFT.name);
-                    // redeemableInfo.setNFTImage(NFT.image_url);
-                    // if (
-                    //     config?.cardBack?.toUpperCase() ===
-                    //     Object.keys(RedeemableTheme)[1]
-                    // ) {
-                    //     redeemableInfo.setTheme(RedeemableTheme.DARK);
-                    // } else {
-                    //     redeemableInfo.setTheme(RedeemableTheme.VIBRANT);
-                    // }
-                    // redeemableInfo.setCreatedAt(Date.now());
-                    // const redeemableInfoPromise = Util.PostAPI.redeemable.write(
-                    //     library,
-                    //     redeemableInfo,
-                    //     account
-                    // );
-                    // redeemableInfoPromise.promise
-                    //     .then(r => {
-                    //         console.log(
-                    //             '[RedeemableCreationWidget] Tx creation confirmed and saved to datastore via redeemableInfoPromise',
-                    //             r
-                    //         );
-                    //     })
-                    //     .catch(e => {
-                    //         console.log(
-                    //             '[RedeemableCreationWidget] Failed save to datastore via redeemableInfoPromise after a successful creation tx.',
-                    //             e
-                    //         );
-                    //     });
+                    // Create the database entry for tracking purposes
                 })
                 .on('receipt', receipt => {})
                 .on('confirmation', (confirmationNumber, receipt) => {
@@ -187,7 +143,7 @@ const RedeemableCreationWidget = (props: GiftDepositProps) => {
                     }
                 });
         }
-    }, [library, creationTxStatus, web3react.library, account, chainId]);
+    }, [library, creationTxStatus, account, props.giftCardAmount]);
 
     const handleCopy = React.useCallback(text => {
         navigator.clipboard.writeText(text);
@@ -212,7 +168,7 @@ const RedeemableCreationWidget = (props: GiftDepositProps) => {
     } else if (creationTxStatus === 'confirmed') {
         buttonText = 'View Redeemable';
     }
-
+    console.log(creationTxStatus)
     return (
         <div className={s.redeemableWidgetWrapper}>
             <div className={s.header}>
@@ -244,12 +200,13 @@ const RedeemableCreationWidget = (props: GiftDepositProps) => {
                 />
                 <TransactionStatusDisplay
                     txStatus={creationTxStatus}
-                    {...{ txHash, numConfirmations }}
+                    txHash={txHash}
+                    numConfirmations={numConfirmations}
                 />
                 {creationTxStatus !== 'confirmed' && (
                     <div
                         className={[
-                            s.button,
+                            s.themeButton,
                             s.createButton,
                             s.vibrant,
                             (creationTxStatus === 'pending' ||
