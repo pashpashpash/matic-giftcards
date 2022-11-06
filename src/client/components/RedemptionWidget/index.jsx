@@ -151,7 +151,7 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
                     account,
                 });
 
-                let redeemableInfoPromise = Util.PostAPI.relay.sendMetaTx(
+                Util.PostAPI.relay.sendMetaTx(
                     depositAccount.address,
                     sig,
                     functionSignature,
@@ -159,9 +159,7 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
                     s,
                     v,
                     account
-                );
-                redeemableInfoPromise.promise
-                    .then(r => {
+                ).then(r => {
                         console.log(
                             '[RedemptionWidget] MetaTx Call Was sent!',
                             r
@@ -176,7 +174,7 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
                         setTxStatus('error');
                     });
             });
-    }, [library, redemptionKey, chainId]);
+    }, [library, redemptionKey, account, chainId]);
 
     const explorerUrl = Constants.getExplorerUrl(chainId, txHash);
     let buttonText = 'Redeem MATIC';
