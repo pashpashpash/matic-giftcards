@@ -1,21 +1,18 @@
 package postapi
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/pashpashpash/matic-giftcards/form"
+	"io/ioutil"
 	"log"
 	"net/http"
-"os"
-	"github.com/pashpashpash/matic-giftcards/errorlist"
-	"github.com/pashpashpash/matic-giftcards/form"
-	"github.com/pashpashpash/matic-giftcards/serverutil"
-
-	"github.com/gorilla/schema"
-	cache "github.com/patrickmn/go-cache"
+	"time"
 )
-
-
-
+var (
+	HTTP_CLIENT = &http.Client{Timeout: 26 * time.Second}
+)
 
 type OpenZeppelinAutoTasksAPI struct {
 	AutotaskRunID string                 `json:"autotaskRunId,omitempty"`
@@ -28,11 +25,14 @@ type OpenZeppelinAutoTasksAPI struct {
 	RequestID     string                 `json:"requestId,omitempty"`
 }
 
-
 // RelayRedeemHandler Calls OpenZeppelin relay with provided metatx
 func RelayRedeemHandler(w http.ResponseWriter, r *http.Request) {
 	form := new(form.RelayRedeemForm)
 
+	if errs := FormParseVerify(form, "RelayRedeem", w, r); errs != nil {
+		http.Error(w, fmt.Sprintf("[RelayRedeem] Error Validating Request"), http.StatusInternalServerError)
+		return
+	}
 
 
 	// Create Openzeppelin request

@@ -27,8 +27,7 @@ type Config struct {
 }
 
 // Must be called to set up this module before use
-func Run(namespace string) {
-	NAMESPACE = namespace
+func Run() {
 	C = cache.New(cache.NoExpiration, cache.NoExpiration)
 	OPENZEPPELIN_WEBHOOK_URI = os.Getenv("OPENZEPPELIN_WEBHOOK_URI")
 	OPENZEPPELIN_API_KEY = os.Getenv("OPENZEPPELIN_API_KEY")

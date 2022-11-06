@@ -19,7 +19,6 @@ import (
 
 	"github.com/pashpashpash/matic-giftcards/giftcards-web-server/postapi"
 
-	"github.com/pashpashpash/matic-giftcards/datastoreclient"
 
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
@@ -48,14 +47,9 @@ func main() {
 	siteConfig["DEBUG_SITE"] = strconv.FormatBool(*debugSite)
 	rand.Seed(time.Now().UnixNano())
 
-	// Start up Google Cloud Datastore client
-	dbNamespace := "matic-giftcards"
-	if err := datastoreclient.Start(dbNamespace); err != nil {
-		log.Fatalln("Failed datastore client startup", err)
-	}
 
 	// Initialize modules
-	postapi.Run(dbNamespace)
+	postapi.Run()
 
 	// Configure main web server
 	server := negroni.New()
@@ -65,6 +59,9 @@ func main() {
 	l.SetDateFormat(NegroniDateFmt)
 	server.Use(l)
 	mx := mux.NewRouter()
+	
+	// OpenZeppelin Relay
+	mx.HandleFunc("/relay/redeem", postapi.RelayRedeemHandler).Methods("POST")
 
 	// Path Routing Rules: Static Handlers
 	mx.HandleFunc("/github", StaticRedirectHandler("https://github.com/pashpashpash/matic-giftcards"))
