@@ -1,0 +1,124 @@
+@import '../../less/common.less';
+
+.cardBackExample {
+    width: @example-card-width;
+    height: @example-card-height;
+    border: 6px solid @color-redeemable-background-black;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(
+        to right,
+        #1e5799 0%,
+        #2ce0bf 19%,
+        #76dd2c 40%,
+        #dba62b 60%,
+        #e02cbf 83%,
+        #1e5799 100%
+    );
+    background-size: 10000px 100%;
+    animation: bg 15s linear infinite;
+    border-radius: 32px;
+    overflow: hidden;
+    justify-content: center;
+
+    &.dark {
+        background: linear-gradient(
+            0deg,
+            @color-redeemable-background-darker-grey,
+            black
+        );
+    }
+
+    .redeemableExampleBackground {
+        width: inherit;
+        height: inherit;
+        overflow: hidden;
+        position: absolute;
+    }
+    .redeemableSquare {
+        position: absolute;
+        background-image: url(/img/common/redeemable-square.png);
+        background-size: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 116px;
+        height: 116px;
+    }
+    // .redeemableFrame {
+    //     position: absolute;
+    //     background-image: url(/img/common/redeemable-frame.png);
+    //     background-size: 96%;
+    //     background-position: center;
+    //     background-repeat: no-repeat;
+    //     width: inherit;
+    //     height: inherit;
+    // }
+
+    .redeemableHeadline {
+        position: absolute;
+        bottom: 2.86%;
+        font-weight: 600;
+        color: @color-redeemable-white;
+    }
+
+    .redeemableQR {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 84px;
+    }
+
+    .redeemableAmount {
+        position: absolute;
+        color: @color-redeemable-background-black;
+        font-weight: 600;
+        top: 8.86%;
+        font-size: 16px;
+        right: 7%;
+    }
+}
+
+.hoverEffects {
+    &:hover {
+        border-color: @color-redeemable-white;
+        filter: brightness(110%);
+    }
+    &:active {
+        border-color: @color-redeemable-white;
+        filter: brightness(80%);
+    }
+}
+
+.cardFrontExample {
+    width: @example-card-width;
+    height: @example-card-height;
+    border: 6px solid @color-redeemable-background-black;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 32px;
+    overflow: hidden;
+    justify-content: center;
+    background: linear-gradient(0deg, #156a95, #09bfda);
+
+    .exampleCard {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 84px;
+    }
+
+    .openseaCard {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        overflow: hidden;
+    }
+}
