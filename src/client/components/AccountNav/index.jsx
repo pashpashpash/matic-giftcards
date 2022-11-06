@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { useEagerConnect, injected } from './connectors';
+import { useEagerConnect, injected, portis } from './connectors';
 
 import Constants from '../../Constants';
 
@@ -76,9 +76,14 @@ const AccountNav = (): React.Node => {
         }
         if (active) return;
         activate(injected, (error: Error) => {
-            console.log('[AccountNav] Error inside activate function', {
-                error,
-            });
+            console.log('[AccountNav] Error inside activate function',
+                error.name,
+            );
+            if (error.name === "NoEthereumProviderError") {
+                activate(portis, (error: Error) => {
+                    console.log("error Activating portis fallback", err)
+                })
+            }
         })
             .then((res): any => {})
             .catch((err: Error): any => {

@@ -185,6 +185,12 @@ const Footer = (props: Props): React.Node => {
                                 data-category={'footer-link'}>
                                 Home
                             </Go>
+                            <Go
+                                to={'/create-native'}
+                                data-action={'matic-giftcards-home'}
+                                data-category={'footer-link'}>
+                                Create
+                            </Go>
                         </div>
                         <div className={s.linkColumn}>
                             <div className={s.linkHeader}>Help</div>
