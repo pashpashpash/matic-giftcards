@@ -8,9 +8,20 @@ import QRCode from 'react-qr-code';
 
 const RedeemableCard = (props): React.Node => {
     const customBackgroundSet = typeof props.backgroundUrl === 'string';
+    console.log('>>>Rendering RedeemableCard with slotAmount:', {
+        slotAmount: props.slotAmount,
+    });
+
+    let slotAmount = parseFloat(props.slotAmount);
+    if (isNaN(slotAmount)) {
+        slotAmount = (10.5).toFixed(2);
+    } else {
+        slotAmount = slotAmount.toFixed(2);
+    }
 
     return props.back === true ? (
-        <div style={{position: 'relative'}}
+        <div
+            style={{ position: 'relative' }}
             className={[
                 s.cardBackExample,
                 typeof props.customStyle === 'string' ? props.customStyle : '',
@@ -34,12 +45,7 @@ const RedeemableCard = (props): React.Node => {
             </div>
             <div className={s.redeemableHeadline}>REDEEMABLE</div>
             <div className={s.redeemableAmount}>
-                <div>
-                    {typeof props.slotAmount === 'number'
-                        ? props.slotAmount
-                        : (10.5).toFixed(2)}{' '}
-                    MATIC
-                </div>
+                <div>{slotAmount} MATIC</div>
                 <div>ETHGlobal</div>
                 <div>11/22</div>
             </div>
