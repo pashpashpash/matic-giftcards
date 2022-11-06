@@ -98,7 +98,21 @@
                     filter: brightness(80%);
                     transition: all 200ms ease-in-out;
                 }
+
+                &.disabled {
+                    cursor: default;
+
+                    &:hover {
+                            filter: none;
+                    }
+
+                    &:active {
+                        filter: none;
+                    }
+                }
             }
+
+
         }
     }
 }

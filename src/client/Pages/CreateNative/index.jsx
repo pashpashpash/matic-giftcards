@@ -48,113 +48,123 @@ const RequireLogin = (): React.Node => {
 };
 
 type GiftCardInputProps = {
-    giftCardAmount: number,
+    giftCardAmount: number | string,
     setGiftCardAmount: Function,
     confirmAmount: Function,
 };
 
 const GiftCardAmountInput = (props: GiftCardInputProps): React.Node => {
     const { library, account } = useWeb3React();
-    const [precision, setPrecision] = React.useState(5)
-    const [balance, setBalance] = React.useState(0)
+    const [balance, setBalance] = React.useState(0);
 
     React.useEffect(() => {
         library.eth.getBalance(account, (err: Error, result: string) => {
             if (err) {
-                console.log("WEB3 error reload page", err)
+                console.log('WEB3 error reload page', err);
             } else {
-                setBalance(library.utils.fromWei(result, "ether"))
+                setBalance(library.utils.fromWei(result, 'ether'));
             }
-        })
-    })
+        });
+    });
+
+    let buttonMessage =
+        'Confirm deposit of ' +
+        props.giftCardAmount +
+        ' MATIC into your Redeemable giftcard';
+
+    if (props.giftCardAmount === 0 || props.giftCardAmount === '') {
+        buttonMessage = 'Please select a nonzero amount of MATIC';
+    }
 
     return (
-    <div className={s.GiftCardInputAmountContainer}>
-        <div className={s.giftcardHeader}>
-            {' '}
-            How Much would you like to deposit into your gift card
-        </div>
+        <div className={s.GiftCardInputAmountContainer}>
+            <div className={s.giftcardHeader}>
+                {' '}
+                How much MATIC would you like to deposit into your gift card?
+            </div>
 
-        <div className={s.SliderContainer}>
-            <input
-                className={s.SliderQuantity}
-                type="text"
-                value={props.giftCardAmount}
-                onChange={(evt: { target: { value: number } }) => {
-                    const result = evt.target.value
-                    const newPrecision = result + ""
-                    console.log('TextInputEvent: ', result, newPrecision.length, result > balance);
-                    if (result > balance) return;
-                    props.setGiftCardAmount(
-                        result
-                    );
-                    setPrecision(newPrecision.length)
-                }}
-            />
-            <Slider
-                asix="X"
-                x={props.giftCardAmount}
-                onChange={(x: { x: number, y: number }) => {
-                    console.log('Setting quanitity: ', x.x, precision);
-                    if (x.x > 100 && x.x < 1000) {
-                        props.setGiftCardAmount(x.x.toPrecision(6));
-                        setPrecision(6);
-                        return;
-                    }
-                    if (x.x > 1000) {
-                        props.setGiftCardAmount(x.x.toPrecision(7));
-                        setPrecision(7);
-                        return;
-                    }
-                    if (x.x > 10000) {
-                        props.setGiftCardAmount(x.x.toPrecision(8));
-                        setPrecision(8);
-                        return;
-                    }
-                    props.setGiftCardAmount(x.x.toPrecision(precision));
-                }}
-                xmin={0}
-                xmax={balance}
-                xstep={0.00001}
-                styles={{
-                    x: { width: '320px' },
-                    track: {
-                        width: '60%',
-                        backgroundColor: '#c1bfba',
-                    },
-                    active: {
-                        backgroundColor: '#272727',
-                        border: '2px solid #c1bfba'
-                    },
-                    thumb: {
-                        width: 24,
-                        height: 50,
-                    },
-                    disabled: {
-                        opacity: 0.5,
-                    },
-                }}
-            />
-        </div>
+            <div className={s.SliderContainer}>
+                <input
+                    className={s.SliderQuantity}
+                    type="text"
+                    value={props.giftCardAmount}
+                    onChange={(evt: { target: { value: number | string } }) => {
+                        const result = evt.target.value;
+                        props.setGiftCardAmount(result);
+                    }}
+                    onBlur={(evt: { target: { value: number | string } }) => {
+                        console.log('>>> on blur event:', { evt });
+                        if (evt.target.value === '') {
+                            props.setGiftCardAmount(0);
+                        }
+                        const result = parseFloat(evt.target.value);
+                        console.log('>>> on blur event result:', { result });
+                        if (result > balance) {
+                            props.setGiftCardAmount(
+                                parseFloat(balance).toFixed(2)
+                            );
+                        } else if (result < 0) {
+                            props.setGiftCardAmount(0);
+                        } else if (isNaN(result)) {
+                            props.setGiftCardAmount(0);
+                        } else {
+                            props.setGiftCardAmount(result.toFixed(2));
+                        }
+                    }}
+                />
+                <Slider
+                    asix="X"
+                    x={props.giftCardAmount === '' ? 0 : props.giftCardAmount}
+                    onChange={(x: { x: number, y: number }) => {
+                        console.log('Setting quanitity: ', x.x);
+                        props.setGiftCardAmount(x.x.toFixed(2));
+                    }}
+                    xmin={0}
+                    xmax={balance}
+                    xstep={0.01}
+                    styles={{
+                        x: { width: '320px' },
+                        track: {
+                            width: '60%',
+                            backgroundColor: '#c1bfba',
+                        },
+                        active: {
+                            backgroundColor: '#272727',
+                            border: '2px solid #c1bfba',
+                        },
+                        thumb: {
+                            width: 24,
+                            height: 50,
+                        },
+                        disabled: {
+                            opacity: 0.5,
+                        },
+                    }}
+                />
+            </div>
 
-        <div className={s.amountConfirmContainer}>
-            <div
-                className={s.confirmAmountButton}
-                onClick={() => {
-                    if (props.giftCardAmount > 0) {
-                        props.confirmAmount(true);
-                    }
-                    console.log('must be more than 0');
+            <div className={s.amountConfirmContainer}>
+                <div
+                    className={[
+                        s.confirmAmountButton,
+                        props.giftCardAmount === 0 && s.disabled,
+                    ].join(' ')}
+                    onClick={() => {
+                        if (
+                            typeof props.giftCardAmount === 'number' &&
+                            props.giftCardAmount > 0
+                        ) {
+                            props.confirmAmount(true);
+                        }
+                        console.log('must be more than 0');
                         return;
-                }}>
-                Confirm deposit of{' '}
-                {props.giftCardAmount} into gift
-                Redeemable
+                    }}>
+                    {buttonMessage}
+                </div>
             </div>
         </div>
-    </div>
-);
-            }
+    );
+};
 
 type GiftDepositProps = {
     giftCardAmount: number,
