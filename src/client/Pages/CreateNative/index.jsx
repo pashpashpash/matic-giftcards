@@ -72,7 +72,11 @@ const GiftCardAmountInput = (props: GiftCardInputProps): React.Node => {
         props.giftCardAmount +
         ' MATIC into your Redeemable giftcard';
 
-    if (props.giftCardAmount === 0 || props.giftCardAmount === '') {
+    if (
+        props.giftCardAmount === 0 ||
+        props.giftCardAmount === '' ||
+        parseFloat(props.giftCardAmount) == 0
+    ) {
         buttonMessage = 'Please select a nonzero amount of MATIC';
     }
 
@@ -126,15 +130,17 @@ const GiftCardAmountInput = (props: GiftCardInputProps): React.Node => {
                         x: { width: '320px' },
                         track: {
                             width: '60%',
-                            backgroundColor: '#c1bfba',
+                            backgroundColor: '#272727',
                         },
                         active: {
-                            backgroundColor: '#272727',
-                            border: '2px solid #c1bfba',
+                            backgroundColor: '#BF40BF',
+                            border: '2px solid #272727',
                         },
                         thumb: {
-                            width: 24,
-                            height: 50,
+                            width: 40,
+                            height: 40,
+                            backgroundColor: '#181a1b',
+                            border: '2px solid #BF40BF',
                         },
                         disabled: {
                             opacity: 0.5,

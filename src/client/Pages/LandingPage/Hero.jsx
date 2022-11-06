@@ -3,6 +3,8 @@ import * as React from 'react';
 import Page from '../../components/Page';
 import Go from '../../components/Go';
 
+import RedeemableCard from '../../components/RedeemableCard';
+
 import s from './index.less';
 
 type Props = {
@@ -16,10 +18,28 @@ const Hero = (props: Props): React.Node => (
         verticalCenter={true}
         footerEnabled={false}
         footerFloating={false}
-        contentPreferredWidth={800}>
+        contentPreferredWidth={880}>
         <div className={s.content} style={{ zIndex: 1 }}>
             <div className={s.sideBySide}>
                 <div className={s.cards}>
+                    <RedeemableCard
+                        customStyle={[
+                            s.rotateClockwise,
+                            s.customFloatFront,
+                        ].join(' ')}
+                    />
+                    <Go
+                        to={'/create'}
+                        data-action={'redeemable-create'}
+                        data-category={'Redeemable-hero'}>
+                        <RedeemableCard
+                            back={true}
+                            customStyle={[
+                                s.rotateCounterClockwise,
+                                s.customFloatBack,
+                            ].join(' ')}
+                        />
+                    </Go>
                 </div>
                 <div className={s.callToAction}>
                     <div className={s.landingText}>

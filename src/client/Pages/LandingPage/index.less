@@ -118,7 +118,7 @@ body {
                 background-size: 100%;
                 background-position: center;
                 background-repeat: no-repeat;
-                background-image: url(/img/common/cards-magic.png);
+                background-image: url(/img/common/gift-card.png);
             }
         }
 
@@ -173,14 +173,38 @@ body {
 
     .cards {
         position: relative;
-        width: 320px;
-        height: 256px;
+        width: @example-card-width;
+        height: @example-card-height;
         transform: scale(0.9);
-        background: url("/img/LandingPageHeroCard");
-        @media @small-query, @medium-query {
+
+        @media @small-query,
+        @medium-query {
             transform: scale(0.75);
             transform-origin: center center;
         }
-        
+
+        .customFloatBack {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            @media @small-query,
+            @medium-query {
+                left: 0;
+                top: 0;
+            }
+        }
+
+        .customFloatFront {
+            position: absolute;
+            top: -40px;
+            left: 130px;
+
+            @media @small-query,
+            @medium-query {
+                left: 0;
+                top: 0;
+            }
+        }
     }
 }
