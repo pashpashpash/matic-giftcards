@@ -4,11 +4,15 @@ import s from './index.less';
 
 import Go from '../Go';
 import URL from 'url-parse';
-import AccountNav from '../AccountNav'
+import AccountNav from '../AccountNav';
+import { useWeb3React } from '@web3-react/core';
 
 const Header = (): React.Node => {
     const curHost = window.location.hostname;
     let thisSite = curHost;
+
+    const web3react = useWeb3React();
+    const { account, chainId, active, activate, library } = web3react;
 
     if (curHost === 'localhost') {
         thisSite = 'http://localhost:8100';
@@ -65,8 +69,12 @@ const Header = (): React.Node => {
                 data-category={'Giftcard-header'}>
                 <div
                     className={s.giftLogo}
-                    style={{ position: 'relative', marginRight: 8, color: "white"}}>
-                    Redeem A GIFT
+                    style={{
+                        position: 'relative',
+                        marginRight: 8,
+                        color: 'white',
+                    }}>
+                    Redeemable
                 </div>
             </Go>
 
@@ -204,9 +212,8 @@ const Header = (): React.Node => {
                     </div>
                 </a>
             </div>
-            <div className={s.mainLinks}>{links}</div>
             <div className={s.connectWallet}>
-                <AccountNav/>
+                <AccountNav />
             </div>
         </div>
     );
