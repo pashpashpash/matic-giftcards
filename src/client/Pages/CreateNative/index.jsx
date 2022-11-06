@@ -5,9 +5,8 @@ import { injected } from '../../components/AccountNav/connectors';
 import Page from '../../components/Page';
 import Footer from '../../components/Footer';
 import Slider from 'react-input-slider';
-
+import DepositWidget from "../../components/depositWidget";
 import s from './index.less';
-import Constants from '../../constants';
 
 type Props = {
     history: Object,
@@ -102,20 +101,6 @@ const GiftCardAmountInput = (props: GiftCardInputProps): React.Node => (
 type GiftDepositProps = {
     giftCardAmount: number,
 };
-const DepositGiftRedeemable = (props: GiftDepositProps): React.Node => {
-    const { library } = useWeb3React();
-
-    const DepositFunds = () => {
-        if (!library) {
-            console.log("DEPOSIT ERROR WEB3 undifined");
-            return;
-        }
-    }
-
-    return (
-        <div>DEPOSIT FUNDS HERE</div>
-    );
-}
 
 const CreateNative = (props: Props): React.Node => {
     const { account } = useWeb3React();
@@ -135,7 +120,7 @@ const CreateNative = (props: Props): React.Node => {
         );
     } else {
         // once the deposit amount in confirmed move to creating the redeemable
-        display = <DepositGiftRedeemable giftCardAmount={cardAmount}/>
+        display = <DepositWidget giftCardAmount={cardAmount}/>
 
     }
     return (
