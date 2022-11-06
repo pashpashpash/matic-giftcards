@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { useEagerConnect, injected } from './connectors';
-import { useDispatch } from 'react-redux';
 
 import Constants from '../../constants';
 
@@ -20,7 +19,6 @@ const AccountNav = (): React.Node => {
     const web3react = useWeb3React();
     const tried = useEagerConnect();
     const { account, chainId, active, activate, library } = web3react;
-    let activatingConnector = null;
 
     const handleClick = React.useCallback(() => {
         if (!activate) {
@@ -33,7 +31,6 @@ const AccountNav = (): React.Node => {
             });
         })
             .then((res): any => {
-                activatingConnector = null;
             })
             .catch((err: Error): any => {
                 console.log('[AccountNav] Error activating connector', err);

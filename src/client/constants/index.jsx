@@ -1,9 +1,9 @@
 // Shared Constants
-import RedeemableNative from "../../../contracts/compiled/RedeemableNative.json"
+import RedeemableNative from '../../../contracts/compiled/RedeemableNative.json';
 const Constants = {
     contracts: {
         RedeemableNative,
-        REDEEMABLENATIVE_ADDRESS: "0xC9b8F651c1D86cB3C4408755Af1340295c3441F5",
+        REDEEMABLENATIVE_ADDRESS: '0xC9b8F651c1D86cB3C4408755Af1340295c3441F5',
     },
 
     networks: {
@@ -17,7 +17,7 @@ const Constants = {
 
     units: {
         weiInEth: 1000000000000000000,
-        seedInEth: 10000,
+        geiInETH: 1000000000,
     },
 
     numbers: {
