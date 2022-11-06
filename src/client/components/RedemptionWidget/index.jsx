@@ -335,7 +335,7 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
                         </div>
                     </div>
                 </div>
-                <div style={{ height: 48 }}></div>
+                <div style={{ height: 72 }}></div>
                 <div className={s.noWalletContainer}>
                     <div className={s.noWalletText}>Dont have a crypto wallet? Don't worry about it, making a new wallet is super fast!
                      A wallet is where you recieve currency like MATIC and its also your one click, one password, to login to all web3 applications.</div>
