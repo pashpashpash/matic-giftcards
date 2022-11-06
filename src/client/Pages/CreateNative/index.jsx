@@ -211,7 +211,7 @@ const CreateNative = (props: Props): React.Node => {
             footerEnabled={true}
             footerFloating={false}
             verticalCenter={true}
-            contentPreferredWidth={800}
+            contentPreferredWidth={1000}
             footerComponent={<Footer />}>
             <div className={s.content}>{display}</div>
         </Page>

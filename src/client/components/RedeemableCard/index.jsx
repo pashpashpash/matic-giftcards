@@ -10,7 +10,7 @@ const RedeemableCard = (props): React.Node => {
     const customBackgroundSet = typeof props.backgroundUrl === 'string';
 
     return props.back === true ? (
-        <div
+        <div style={{position: 'relative'}}
             className={[
                 s.cardBackExample,
                 typeof props.customStyle === 'string' ? props.customStyle : '',

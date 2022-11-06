@@ -1,11 +1,11 @@
 /* eslint-disable flowtype/require-return-type */
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import s from './index.less';
 import Constants from '../../Constants';
 import TransactionStatusDisplay from '../TransactionStatusDisplay';
 import Go from '../Go';
+import RedeemableCard from "../RedeemableCard"
 
 import { useWeb3React } from '@web3-react/core';
 
@@ -192,12 +192,9 @@ const RedeemableCreationWidget = (props: GiftDepositProps) => {
                     )}
             </div>
             <div className={s.redeemableWidget}>
-                <div
-                    className={s.avatar}
-                    style={{
-                        backgroundImage: `url(/img/logos/redeemable.svg)`,
-                    }}
-                />
+                <RedeemableCard
+                back={true}
+                slotAmount={props.giftCardAmount}/>
                 <TransactionStatusDisplay
                     txStatus={creationTxStatus}
                     txHash={txHash}
