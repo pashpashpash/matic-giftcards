@@ -54,8 +54,20 @@ type GiftCardInputProps = {
 };
 
 const GiftCardAmountInput = (props: GiftCardInputProps): React.Node => {
-
+    const { library, account } = useWeb3React();
     const [precision, setPrecision] = React.useState(5)
+    const [balance, setBalance] = React.useState(0)
+
+    React.useEffect(() => {
+        library.eth.getBalance(account, (err: Error, result: string) => {
+            if (err) {
+                console.log("WEB3 error reload page", err)
+            } else {
+                setBalance(library.utils.fromWei(result, "ether"))
+            }
+        })
+    })
+ 
     return (
     <div className={s.GiftCardInputAmountContainer}>
         <div className={s.giftcardHeader}>
@@ -71,7 +83,8 @@ const GiftCardAmountInput = (props: GiftCardInputProps): React.Node => {
                 onChange={(evt: { target: { value: number } }) => {
                     const result = evt.target.value
                     const newPrecision = result + ""
-                    console.log('TextInputEvent: ', result, newPrecision.length);
+                    console.log('TextInputEvent: ', result, newPrecision.length, result > balance);
+                    if (result > balance) return;
                     props.setGiftCardAmount(
                         result
                     );
@@ -82,12 +95,26 @@ const GiftCardAmountInput = (props: GiftCardInputProps): React.Node => {
                 asix="X"
                 x={props.giftCardAmount}
                 onChange={(x: { x: number, y: number }) => {
-                    console.log('Setting quanitity: ', x.x);
-                    props.setGiftCardAmount(x.x);
-                    if (x.x > 1000) setPrecision(7);
+                    console.log('Setting quanitity: ', x.x, precision);
+                    if (x.x > 100 && x.x < 1000) {
+                        props.setGiftCardAmount(x.x.toPrecision(6));
+                        setPrecision(6);
+                        return;
+                    }
+                    if (x.x > 1000) {
+                        props.setGiftCardAmount(x.x.toPrecision(7));
+                        setPrecision(7);
+                        return;
+                    }
+                    if (x.x > 10000) {
+                        props.setGiftCardAmount(x.x.toPrecision(8));
+                        setPrecision(8);
+                        return;
+                    }
+                    props.setGiftCardAmount(x.x.toPrecision(precision));
                 }}
                 xmin={0}
-                xmax={10000}
+                xmax={balance}
                 xstep={0.00001}
                 styles={{
                     x: { width: '320px' },
@@ -121,7 +148,7 @@ const GiftCardAmountInput = (props: GiftCardInputProps): React.Node => {
                     props.confirmAmount(true);
                 }}>
                 Confirm deposit of{' '}
-                {parseFloat(props.giftCardAmount).toPrecision(precision - 1)} into gift
+                {props.giftCardAmount} into gift
                 Redeemable
             </div>
         </div>
