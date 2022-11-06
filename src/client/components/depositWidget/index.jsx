@@ -5,7 +5,7 @@ import s from './index.less';
 import Constants from '../../Constants';
 import TransactionStatusDisplay from '../TransactionStatusDisplay';
 import Go from '../Go';
-import RedeemableCard from "../RedeemableCard"
+import RedeemableCard from '../RedeemableCard';
 
 import { useWeb3React } from '@web3-react/core';
 
@@ -173,8 +173,8 @@ const RedeemableCreationWidget = (props: GiftDepositProps) => {
         <div className={s.redeemableWidgetWrapper}>
             <div className={s.header}>
                 <div className={s.details}>
-                    <div>Redeemable Gift Card: {props.giftCardAmount}</div>
-                    <div className={s.options}>{'vibrant'}</div>
+                    <div>Deposit to create Redeemable GIFT</div>
+                    <div className={s.options}>{'Options: vibrant'}</div>
                 </div>
                 {(creationTxStatus === 'confirmed' ||
                     creationTxStatus === 'error' ||
@@ -192,53 +192,58 @@ const RedeemableCreationWidget = (props: GiftDepositProps) => {
                     )}
             </div>
             <div className={s.redeemableWidget}>
-                <RedeemableCard
-                back={true}
-                slotAmount={props.giftCardAmount}/>
-                <TransactionStatusDisplay
-                    txStatus={creationTxStatus}
-                    txHash={txHash}
-                    numConfirmations={numConfirmations}
-                />
-                {creationTxStatus !== 'confirmed' && (
-                    <div
-                        className={[
-                            s.themeButton,
-                            s.createButton,
-                            s.vibrant,
-                            (creationTxStatus === 'pending' ||
-                                creationTxStatus === 'awaiting-send') &&
-                                s.pending,
-                            creationTxStatus === 'error' && s.error,
-                            creationTxStatus === 'error' && s.disabled,
-                        ].join(' ')}
-                        onClick={
-                            creationTxStatus == null ? handleCreate : null
-                        }>
-                        <div className={[s.actionText].join(' ')}>
-                            {buttonText}
-                        </div>
-                    </div>
-                )}
-                {creationTxStatus === 'confirmed' && redeemableKey && (
-                    <Go
-                        external
-                        to={'/r/' + redeemableKey}
-                        className={s.clickableKey}
-                        data-category="View Redeemable"
-                        data-action={'Redemption ' + redeemableKey}>
+                <div className={s.leftSide}>
+                    <RedeemableCard
+                        back={true}
+                        slotAmount={props.giftCardAmount}
+                    />
+                </div>
+                <div className={s.rightSide}>
+                    <TransactionStatusDisplay
+                        txStatus={creationTxStatus}
+                        txHash={txHash}
+                        numConfirmations={numConfirmations}
+                    />
+                    {creationTxStatus !== 'confirmed' && (
                         <div
                             className={[
-                                s.button,
+                                s.themeButton,
                                 s.createButton,
-                                s.confirmed,
-                            ].join(' ')}>
+                                s.vibrant,
+                                (creationTxStatus === 'pending' ||
+                                    creationTxStatus === 'awaiting-send') &&
+                                    s.pending,
+                                creationTxStatus === 'error' && s.error,
+                                creationTxStatus === 'error' && s.disabled,
+                            ].join(' ')}
+                            onClick={
+                                creationTxStatus == null ? handleCreate : null
+                            }>
                             <div className={[s.actionText].join(' ')}>
                                 {buttonText}
                             </div>
                         </div>
-                    </Go>
-                )}
+                    )}
+                    {creationTxStatus === 'confirmed' && redeemableKey && (
+                        <Go
+                            external
+                            to={'/r/' + redeemableKey}
+                            className={s.clickableKey}
+                            data-category="View Redeemable"
+                            data-action={'Redemption ' + redeemableKey}>
+                            <div
+                                className={[
+                                    s.button,
+                                    s.createButton,
+                                    s.confirmed,
+                                ].join(' ')}>
+                                <div className={[s.actionText].join(' ')}>
+                                    {buttonText}
+                                </div>
+                            </div>
+                        </Go>
+                    )}
+                </div>
             </div>
             {creationTxStatus === 'error' && (
                 <div className={s.disclaimer}>

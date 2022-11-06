@@ -36,7 +36,8 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-
+            width: 120px;
+            
             @media @small-query, @medium-query {
                 flex-direction: column;
                 margin-left: 0;
@@ -71,74 +72,67 @@
             padding: 14px;
         }
 
-        .avatar {
-            width: 96px;
-            height: 96px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 8px;
-            border: 6px solid @color-redeemable-background-darker-grey;
-            overflow: hidden;
-            padding: 24px;
-
-            @media @small-query, @medium-query {
-                width: 256px;
-                height: 256px;
-            }
-        }
-
-        .options {
-            text-transform: uppercase;
-        }
-
-        .createButton {
-            margin-top: 0px;
-            width: 220px;
-            height: 120px;
-            margin: 14px;
-            border: 6px solid @color-redeemable-background-darker-grey;
-            background: yellow;
-            padding: 24px;
-            text-transform: uppercase;
-            font-weight: 500;
+        .rightSide{
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: space-evenly;
             align-items: center;
-            
-            cursor: pointer;
-    
-            &:hover {
-                filter: brightness(150%);
+            .options {
+                text-transform: uppercase;
             }
     
-            &:active {
-                filter: brightness(190%);
-            }
-    
-            &.disabled {
-                filter: brightness(40%);
-                color: @color-redeemable-background-dark-grey;
-                cursor: inherit;
-            }
-    
-            &.selected {
-                border: 6px solid @color-redeemable-white;
-            }
-    
-            &.vibrant {
-                background: linear-gradient(
-                    to right,
-                    #1e5799 0%,
-                    #2ce0bf 19%,
-                    #76dd2c 40%,
-                    #dba62b 60%,
-                    #e02cbf 83%,
-                    #1e5799 100%
-                );
-                background-size: 10000px 100%;
-                animation: bg 15s linear infinite;
+            .createButton {
+                margin-top: 0px;
+                width: 220px;
+                height: 120px;
+                margin: 14px;
+                border: 6px solid @color-redeemable-background-darker-grey;
+                // background: @color-redeemable-background-purple;
+                padding: 24px;
+                text-transform: uppercase;
+                font-weight: 500;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                
+                cursor: pointer;
+        
+                &:hover {
+                    filter: brightness(150%);
+                }
+        
+                &:active {
+                    filter: brightness(190%);
+                }
+        
+                &.disabled {
+                    filter: brightness(40%);
+                    color: @color-redeemable-background-dark-grey;
+                    cursor: inherit;
+                }
+        
+                &.selected {
+                    border: 6px solid @color-redeemable-white;
+                }
+                & .confirmed{
+                    border: 6px solid @color-nugbase-light-grey;
+                }
+                &.vibrant {
+                    background: linear-gradient(
+                        to right,
+                        #1e5799 0%,
+                        #2ce0bf 19%,
+                        #76dd2c 40%,
+                        #dba62b 60%,
+                        #e02cbf 83%,
+                        #1e5799 100%
+                    );
+                    background-size: 10000px 100%;
+                    animation: bg 15s linear infinite;
+                }
             }
         }
+
     }
 
     .disclaimer {
