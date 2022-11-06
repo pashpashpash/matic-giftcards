@@ -47,6 +47,7 @@ const ManualRedemption = ({
 
     const [slotNotActive, setSlotNotActive] = React.useState(null);
     const [slotNotUsed, setSlotNotUsed] = React.useState(null);
+    const [slotAmount, setSlotAmount] = React.useState(null);
 
     const [redeemableData, setRedeemableData] = React.useState(null);
     const [errorPageMessage, setErrorPageMessage] = React.useState(null);
@@ -108,6 +109,7 @@ const ManualRedemption = ({
                 .slotData(depositAccount.address)
                 .call()
                 .then(r => {
+                    console.log('>>>>SLOT DATA:', { r });
                     if (!r.used) {
                         console.log(
                             '[RedemptionWidget] Redemption slot not being used!',
@@ -118,6 +120,10 @@ const ManualRedemption = ({
                             }
                         );
                         setSlotNotUsed(true);
+                    }
+
+                    if (r.tokenAmount) {
+                        setSlotAmount(r.tokenAmount);
                     }
                 })
                 .catch(console.log);
@@ -203,6 +209,12 @@ const ManualRedemption = ({
     }, [library, redemptionKey]);
 
     let buttonText = 'Redeem MATIC';
+    if (slotAmount != null) {
+        buttonText =
+            'Redeem ' +
+            (slotAmount / Constants.units.weiInEth).toFixed(4) +
+            ' MATIC';
+    }
     if (txStatus === 'pending') {
         buttonText = 'Waiting...';
     } else if (txStatus === 'error') {
@@ -294,13 +306,12 @@ const ManualRedemption = ({
     if (slotNotUsed) {
         return (
             <div className={s.redemption}>
-                {cards}
                 <div className={s.disclaimer}>
                     This is not a valid Redeemable slot. If this Redeemable was
                     recently created, it might be the case that the deposit
                     transaction has not been confirmed yet. Please reload the
-                    page when the tx confirms. Otherwise, "{redemptionKey}" is
-                    not a valid redemption key.
+                    page when the tx confirms. Otherwise, this is not a valid
+                    redemption key.
                 </div>
             </div>
         );
