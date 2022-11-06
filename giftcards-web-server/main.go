@@ -19,7 +19,6 @@ import (
 
 	"github.com/pashpashpash/matic-giftcards/giftcards-web-server/postapi"
 
-
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
 )
@@ -47,7 +46,6 @@ func main() {
 	siteConfig["DEBUG_SITE"] = strconv.FormatBool(*debugSite)
 	rand.Seed(time.Now().UnixNano())
 
-
 	// Initialize modules
 	postapi.Run()
 
@@ -59,7 +57,7 @@ func main() {
 	l.SetDateFormat(NegroniDateFmt)
 	server.Use(l)
 	mx := mux.NewRouter()
-	
+
 	// OpenZeppelin Relay
 	mx.HandleFunc("/relay/redeem", postapi.RelayRedeemHandler).Methods("POST")
 
@@ -142,7 +140,7 @@ func ServeIndex(w http.ResponseWriter, r *http.Request, meta serverutil.SiteConf
 	localSiteConfig["MetaKeywords"] = replaceEmpty(localSiteConfig["MetaKeywords"], "Giftcards, MATIC, Reward")
 	localSiteConfig["PageTitle"] = replaceEmpty(localSiteConfig["PageTitle"], "Giftcards")
 	localSiteConfig["PageIcon"] = replaceEmpty(localSiteConfig["Icon"], "/img/logos/redeemable-favicon-32.png")
-	localSiteConfig["content"] = replaceEmpty(localSiteConfig["content"], "/img/common/MetaImage")
+	localSiteConfig["content"] = replaceEmpty(localSiteConfig["content"], "/img/common/meta-image.png")
 	localSiteConfig["contentType"] = replaceEmpty(localSiteConfig["contentType"], "og:image")
 	localSiteConfig["ImageHeight"] = replaceEmpty(localSiteConfig["ImageHeight"], "200")
 	localSiteConfig["ImageWidth"] = replaceEmpty(localSiteConfig["ImageWidth"], "300")
