@@ -310,7 +310,7 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
         return (
             <div className={s.page0}>
                 <div className={s.cardRenders}>
-                    <div>IMAGE OF GIFTCARD</div>
+                    <RedeemableCard back={true} />
                     <div className={s.verticalColumn}>
                         <div className={s.callToAction}>
                             Welcome to the digital Redeemable experience! To
@@ -373,7 +373,17 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
         return (
             <div className={s.redemption}>
                 <div>
-                    <RedeemableCard slotAmount={slotAmount} />
+                    <RedeemableCard
+                        slotAmount={
+                            !isNaN(parseFloat(slotAmount))
+                                ? (
+                                      parseFloat(slotAmount) /
+                                      Constants.units.weiInEth
+                                  ).toFixed(2)
+                                : undefined
+                        }
+                        back={true}
+                    />
                 </div>
                 <div className={s.disclaimer}>
                     This Redeemable has already been claimed!
@@ -387,7 +397,12 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
     return (
         <div className={s.redemption}>
             <div className={s.cardRenders}>
-                <RedeemableCard slotAmount={slotAmount} back={true} />
+                <RedeemableCard
+                    slotAmount={
+                        parseFloat(slotAmount) / Constants.units.weiInEth
+                    }
+                    back={true}
+                />
             </div>
             {claimButtonElement}
             <div style={{ height: 14 }} />
