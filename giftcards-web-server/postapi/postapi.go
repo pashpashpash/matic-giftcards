@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
+	"os"
 	"github.com/pashpashpash/matic-giftcards/errorlist"
 	"github.com/pashpashpash/matic-giftcards/form"
 	"github.com/pashpashpash/matic-giftcards/serverutil"
@@ -18,6 +18,8 @@ var (
 	CONFIG    = serverutil.GetConfig()
 	NAMESPACE = ""
 	C         *cache.Cache
+	OPENZEPPELIN_WEBHOOK_URI = ""
+	OPENZEPPELIN_API_KEY     = ""
 )
 
 type Config struct {
@@ -28,6 +30,11 @@ type Config struct {
 func Run(namespace string) {
 	NAMESPACE = namespace
 	C = cache.New(cache.NoExpiration, cache.NoExpiration)
+	OPENZEPPELIN_WEBHOOK_URI = os.Getenv("OPENZEPPELIN_WEBHOOK_URI")
+	OPENZEPPELIN_API_KEY = os.Getenv("OPENZEPPELIN_API_KEY")
+	if len(OPENZEPPELIN_API_KEY) == 0 || len(OPENZEPPELIN_WEBHOOK_URI) == 0  {
+		log.Println("MISSING OPENZEPPLING API ENV VARIABLES");
+	}
 }
 
 // Util: does grunt work of decoding + verifying form + writing errors back

@@ -67,7 +67,7 @@ const GiftCardAmountInput = (props: GiftCardInputProps): React.Node => {
             }
         })
     })
- 
+
     return (
     <div className={s.GiftCardInputAmountContainer}>
         <div className={s.giftcardHeader}>
