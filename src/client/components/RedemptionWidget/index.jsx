@@ -184,7 +184,7 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
                         setTxStatus('error');
                     });
             });
-    }, [library, redemptionKey, account, chainId]);
+    }, [library, redemptionKey, account, chainId, web3react.library]);
 
     const explorerUrl = Constants.getExplorerUrl(chainId, txHash);
     let buttonText = 'Redeem MATIC';
@@ -373,7 +373,7 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
         return (
             <div className={s.redemption}>
                 <div>
-                    <RedeemableCard slotAmount={slotAmount} />
+                    <RedeemableCard slotAmount={0} />
                 </div>
                 <div className={s.disclaimer}>
                     This Redeemable has already been claimed!
@@ -387,7 +387,9 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
     return (
         <div className={s.redemption}>
             <div className={s.cardRenders}>
-                <RedeemableCard slotAmount={slotAmount} back={true} />
+                <RedeemableCard slotAmount={parseFloat((slotAmount/ Constants.units.weiInEth).toFixed(
+                NUM_DECIMALS_DISPLAYED
+            ))} back={true} />
             </div>
             {claimButtonElement}
             <div style={{ height: 14 }} />
