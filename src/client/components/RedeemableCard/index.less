@@ -20,6 +20,7 @@
     border-radius: 32px;
     overflow: hidden;
     justify-content: center;
+    position: relative;
 
     &.dark {
         background: linear-gradient(
@@ -56,9 +57,10 @@
 
     .redeemableHeadline {
         position: absolute;
-        bottom: 2.86%;
+        bottom: 6.86%;
         font-weight: 600;
-        color: @color-redeemable-white;
+        color: @color-redeemable-background-black;
+        left: 7%;
     }
 
     .redeemableQR {
@@ -70,10 +72,11 @@
     }
 
     .redeemableAmount {
+        text-align: right;
         position: absolute;
         color: @color-redeemable-background-black;
         font-weight: 600;
-        top: 8.86%;
+        top: 6.86%;
         font-size: 16px;
         right: 7%;
     }

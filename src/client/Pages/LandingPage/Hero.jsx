@@ -29,7 +29,7 @@ const Hero = (props: Props): React.Node => (
                         ].join(' ')}
                     />
                     <Go
-                        to={'/create'}
+                        to={'/create-native'}
                         data-action={'redeemable-create'}
                         data-category={'Redeemable-hero'}>
                         <RedeemableCard
