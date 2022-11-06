@@ -155,7 +155,15 @@ const GiftCardAmountInput = (props: GiftCardInputProps): React.Node => {
                             props.giftCardAmount > 0
                         ) {
                             props.confirmAmount(true);
+                        } else if (typeof props.giftCardAmount !== 'number') {
+                            if (!isNaN(parseFloat(props.giftCardAmount))) {
+                                props.setGiftCardAmount(
+                                    parseFloat(props.giftCardAmount).toFixed(2)
+                                );
+                                props.confirmAmount(true);
+                            }
                         }
+
                         console.log('must be more than 0');
                         return;
                     }}>
