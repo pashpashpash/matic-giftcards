@@ -55,12 +55,12 @@ func RelayRedeemHandler(w http.ResponseWriter, r *http.Request) {
 	openZeppelinResponse, err := HTTP_CLIENT.Do(req)
 	if err != nil {
 		log.Println("[RelayRedeem] Error Fetching OpenZeppelin Data", err)
-		http.Error(w, fmt.Sprintf("[RelayRedeem] Error Fetching OpenZeppelin Data"), http.StatusNotFound)
+		http.Error(w, fmt.Sprintf("[RelayRedeem] Error Fetching OpenZeppelin Data", err), http.StatusNotFound)
 		return
 	}
 	openZeppelinDataBytes, err := ioutil.ReadAll(openZeppelinResponse.Body)
 	if err != nil {
-		log.Println("[RelayRedeem] Error Reading OpenZeppelin Data", err)
+		log.Println("[RelayRedeem] Error unpacking OpenZeppelin Data", err)
 		http.Error(w, fmt.Sprintf("[RelayRedeem] Error Reading OpenZeppelin Data"), http.StatusNotFound)
 		return
 	}
@@ -71,9 +71,25 @@ func RelayRedeemHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("[RelayRedeem] Open Zepplin response ", openZeppelinData)
 	if openZeppelinData.Status != "success" {
 		log.Println("[RelayRedeem] Openzeppelin error", openZeppelinData.EncodedLogs, err)
-		http.Error(w, fmt.Sprintf("[RelayRedeem] Relay Error. OpenZeppelin response status has error"), http.StatusNotFound)
+		http.Error(w, openZeppelinData.EncodedLogs, http.StatusNotFound)
 		return
 	}
+
+	log.Println("[RelayRedeem] Completed")
+}
+
+
+
+func RelaySelfRedeemHandler(w http.ResponseWriter, r *http.Request) {
+	form := new(form.RelayRedeemForm)
+
+	if errs := FormParseVerify(form, "RelayRedeem", w, r); errs != nil {
+		http.Error(w, fmt.Sprintf("[RelayRedeem] Error Validating Request"), http.StatusInternalServerError)
+		return
+	}
+
+
+	
 
 	log.Println("[RelayRedeem] Completed")
 }

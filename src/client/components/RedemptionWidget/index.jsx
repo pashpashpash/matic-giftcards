@@ -144,7 +144,6 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
                     v,
                     account,
                 });
-
                 Util.PostAPI.relay.sendMetaTx(
                     depositAccount.address,
                     sig,
@@ -152,7 +151,7 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
                     r,
                     s,
                     v,
-                    account
+                    account,
                 ).then(r => {
                         console.log(
                             '[RedemptionWidget] MetaTx Call Was sent!',
@@ -160,11 +159,25 @@ const RedemptionWidget = (props: { redemptionKey: string }): React.Node => {
                         );
                         setTxStatus('confirmed');
                     })
-                    .catch(e => {
+                    .catch(async (e) => {
                         console.log(
                             '[RedemptionWidget] MetaTx Call Failed to be sent!',
                             e
                         );
+                        var actual = atob(e)
+                        console.log("defender ERROR: ", actual)
+                        const gasPrice = await Util.Eth.estimateGasPrice(
+                            web3react.library
+                        );
+                        redeemableContract.methods
+                    .executeMetaTransaction(
+                        depositAccount.address,
+                        functionSignature,
+                        r,
+                        s,
+                        v
+                    )
+                    .send({ from: account, gasPrice })
                         setTxStatus('error');
                     });
             });
