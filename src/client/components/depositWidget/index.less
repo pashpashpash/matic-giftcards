@@ -1,0 +1,114 @@
+@import '../../less/common.less';
+
+.redeemableWidgetWrapper {
+    width: 100%;
+    padding: 24px;
+    border: 6px solid @color-redeemable-background-darker-grey;
+    background: @color-redeemable-background-medium-grey;
+    color: @color-redeemable-white;
+    font-size: 14px;
+    margin: 4px;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+
+        @media @small-query, @medium-query {
+            flex-direction: column;
+            justify-content: center;
+            height: auto;
+        }
+
+        .details {
+            text-transform: uppercase;
+            text-align: left;
+            padding: 2px;
+        }
+
+        .linkWrapper {
+            word-break: break-all;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+
+            @media @small-query, @medium-query {
+                flex-direction: column;
+                margin-left: 0;
+            }
+
+            &:hover {
+                font-weight: 700;
+            }
+
+            .copy {
+                margin-left: 14px;
+
+                @media @small-query, @medium-query {
+                    margin-left: 0px;
+                    margin-bottom: 14px;
+                }
+            }
+        }
+    }
+
+    .redeemableWidget {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        z-index: 1000;
+
+        @media @small-query, @medium-query {
+            flex-direction: column;
+            padding: 14px;
+        }
+
+        .avatar {
+            width: 96px;
+            height: 96px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            border: 6px solid @color-redeemable-background-darker-grey;
+            overflow: hidden;
+            padding: 24px;
+
+            @media @small-query, @medium-query {
+                width: 256px;
+                height: 256px;
+            }
+        }
+
+        .options {
+            text-transform: uppercase;
+        }
+
+        .createButton {
+            margin-top: 0px;
+            padding: 24px;
+        }
+    }
+
+    .disclaimer {
+        margin-top: 24px;
+        margin-bottom: 14px;
+    }
+
+    .saveButton {
+        margin-top: 0px;
+        padding: 24px;
+        text-align: center;
+        font-size: 24px;
+    }
+
+    .link {
+        color: @color-redeemable-background-purple;
+    }
+}
