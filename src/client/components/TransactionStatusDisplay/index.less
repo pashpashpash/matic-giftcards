@@ -1,0 +1,44 @@
+@import '../../less/common.less';
+
+.status {
+    width: 228px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: @color-redeemable-white;
+    word-break: break-all;
+    text-transform: uppercase;
+
+    .pending {
+        color: @color-redeemable-pending;
+    }
+
+    .confirmed {
+        color: @color-redeemable-confirmed;
+    }
+
+    .error {
+        color: @color-redeemable-error;
+    }
+
+    .txHash {
+        font-weight: 500;
+        cursor: pointer;
+
+        &:hover {
+            font-weight: 700;
+        }
+    }
+
+    .txStatus {
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+
+    .confirmations {
+        font-weight: 500;
+        font-size: 8px;
+    }
+}
